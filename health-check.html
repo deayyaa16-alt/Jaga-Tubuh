@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cek Kesehatan - JagaTubuh</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1f2e3a;
+            padding-top: 75px;
+        }
+
+        .custom-header-revisi {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #264653;
+            padding: 0 20px;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            z-index: 999;
+            border-bottom: 3px solid #3a6b7a; 
+        }
+
+        .header-left-area {
+            display: flex;
+            align-items: center;
+        }
+
+        .hamburger-left-btn {
+            background: none;
+            border: none;
+            padding: 0 15px 0 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #ffffff;
+            font-size: 28px;
+            transition: opacity 0.3s;
+        }
+        .hamburger-left-btn:hover { opacity: 0.8; }
+
+        .header-brand-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-brand-area img {
+            height: 34px;
+            width: auto;
+            display: block;
+        }
+        .header-brand-area span {
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .nav-links-desktop {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links-desktop a {
+            color: #e0fbfc;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .nav-links-desktop a:hover {
+            color: #ffffff;
+            opacity: 0.8;
+        }
+        .nav-links-desktop a.active {
+            color: #4CAF50;
+        }
+
+        .mobile-sidebar-menu {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background-color: #1d3340;
+            display: none;
+            flex-direction: column;
+            padding: 20px 0;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+            z-index: 998;
+            border-bottom: 3px solid #3a6b7a;
+        }
+        
+        .mobile-sidebar-menu.open {
+            display: flex;
+        }
+
+        .mobile-sidebar-menu a {
+            color: #e0fbfc;
+            text-decoration: none;
+            padding: 15px 25px;
+            font-size: 18px;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background 0.3s;
+        }
+        .mobile-sidebar-menu a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        .mobile-sidebar-menu a.active {
+            color: #4CAF50;
+        }
+
+        @media (max-width: 992px) {
+            .custom-header-revisi { height: 60px; padding: 0 10px; }
+            body { padding-top: 65px; }
+
+            .nav-links-desktop { display: none !important; }
+
+            .hamburger-left-btn { display: flex !important; font-size: 24px; padding: 0 12px 0 0; }
+            
+            .header-brand-area span { font-size: 18px; }
+            .header-brand-area img { height: 28px; }
+            .mobile-sidebar-menu { top: 60px; }
+        }
+
+        .hc-input-group label,
+        .health-form-card label,
+        .viz-label,
+        .viz-number,
+        .form-grid-3 div,
+        .contact-section .section-title,
+        .contact-section .section-subtitle,
+        .about-section h2,
+        .about-content h3,
+        .about-content p,
+        .about-content ul li {
+            color: #ffffff !important;
+        }
+        .hc-input-group input,
+        .hc-input-group select,
+        .hc-input-group textarea,
+        .health-form-card input,
+        .health-form-card select,
+        .health-form-card textarea {
+            color: #ffffff !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+        }
+        .hc-input-group select option,
+        .health-form-card select option {
+            color: #ffffff !important;
+            background: #232E12 !important;
+        }
+        .hc-input-group input::placeholder,
+        .health-form-card input::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+        .health-form-card p,
+        .health-form-card h1, .health-form-card h2, .health-form-card h3, .health-form-card h4,
+        .health-form-card span,
+        .health-form-card div:not(.circular-progress):not(.linear-progress-track) {
+            color: #ffffff !important;
+        }
+        .viz-card .viz-label,
+        .viz-card .viz-number,
+        .viz-card span {
+            color: #ffffff !important;
+        }
+        #results h2,
+        #results .section-title-hc,
+        #results .viz-label,
+        #results .viz-number,
+        #results .viz-card span,
+        #results .form-grid-3 div,
+        #results #displayHistory,
+        #results #displayRestrictions {
+            color: #ffffff !important;
+        }
+        #statusWeightText {
+            color: #ffffff !important;
+        }
+        #insightContainer .insight-card h5,
+        #insightContainer .insight-card ul li {
+            color: #ffffff !important;
+        }
+        .health-form-card .disclaimer-text,
+        .health-form-card .disclaimer-text p,
+        .health-form-card .disclaimer-text strong {
+            color: #ffffff !important;
+        }
+        .btn-secondary {
+            color: #ffffff !important;
+        }
+    </style>
+</head>
+<body class="health-check-page">
+
+    <header class="custom-header-revisi">
+        
+        <div class="header-left-area">
+            <button class="hamburger-left-btn" onclick="toggleSidebar()">
+                <i class="fas fa-bars" id="hamburgerIcon"></i>
+            </button>
+
+            <div class="header-brand-area">
+                <img src="LOGO.png" alt="Logo JagaTubuh" onerror="this.src='https://via.placeholder.com/40/264653/ffffff?text=+'" />
+                <span>JAGA TUBUH</span>
+            </div>
+        </div>
+
+        <ul class="nav-links-desktop">
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="health-check.html" class="active">Cek Kesehatan</a></li>
+            <li><a href="konsultasi.html">Konsultasi Gizi</a></li>
+            <li><a href="community.html">Komunitas</a></li>
+            <li><a href="login.html" id="desktopLoginBtn" style="color: #6F943B; font-weight: 700;">Login</a></li>
+        </ul>
+
+    </header>
+
+    <div class="mobile-sidebar-menu" id="mobileMenu">
+        <a href="index.html">Beranda</a>
+        <a href="health-check.html" class="active">Cek Kesehatan</a>
+        <a href="konsultasi.html">Konsultasi Gizi</a>
+        <a href="community.html">Komunitas</a>
+        <a href="login.html" id="menuLoginBtn" style="color: #6F943B;">Login</a>
+    </div>
+
+    <div class="health-form-card" data-aos="fade-up" data-aos-duration="800">
+        <h1 style="font-size: 32px; font-weight: 800; margin-bottom: 10px; color: #ffffff;">
+            <i class="fas fa-stethoscope" style="color: #6F943B; margin-right: 12px;"></i> Cek Kesehatan
+        </h1>
+        <p style="color: #ffffff; opacity: 0.9; margin-bottom: 30px; font-size: 16px;">
+            Dapatkan analisis gaya hidup personal, target diet, dan rekomendasi cerdas hanya dalam hitungan detik.
+        </p>
+
+        <form id="healthForm">
+            <h2 style="font-size: 20px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 25px; color: #ffffff;" data-aos="fade-up" data-aos-duration="600">
+                1. Data Diri
+            </h2>
+            
+            <div class="form-grid-2">
+                <div class="hc-input-group" data-aos="fade-up" data-aos-delay="100" data-aos-duration="600">
+                    <label style="color: #ffffff;">Nama Lengkap</label>
+                    <input type="text" id="userName" placeholder="Masukkan nama Anda" style="color: #ffffff;">
+                </div>
+                <div class="hc-input-group" data-aos="fade-up" data-aos-delay="200" data-aos-duration="600">
+                    <label style="color: #ffffff;">Umur (Tahun)</label>
+                    <input type="number" id="age" placeholder="18 - 100" min="18" max="100" required style="color: #ffffff;">
+                </div>
+            </div>
+
+            <div class="form-grid-2">
+                <div class="hc-input-group" data-aos="fade-up" data-aos-delay="100" data-aos-duration="600">
+                    <label style="color: #ffffff;">Jenis Kelamin</label>
+                    <select id="gender" required style="color: #ffffff;">
+                        <option value="" style="color: #ffffff;">Pilih...</option>
+                        <option value="male" style="color: #ffffff;">Laki-laki</option>
+                        <option value="female" style="color: #ffffff;">Perempuan</option>
+                    </select>
+                </div>
+                <div class="hc-input-group" data-aos="fade-up" data-aos-delay="200" data-aos-duration="600">
+                    <label style="color: #ffffff;">Tinggi Badan (cm)</label>
+                    <input type="number" id="height" placeholder="100 - 250" min="100" max="250" step="0.1" required style="color: #ffffff;">
+                </div>
+            </div>
+
+            <div class="form-grid-2">
+                <div class="hc-input-group" data-aos="fade-up" data-aos-delay="100" data-aos-duration="600">
+                    <label style="color: #ffffff;">Berat Badan (kg)</label>
+                    <input type="number" id="weight" placeholder="30 - 300" min="30" max="300" step="0.1" required style="color: #ffffff;">
+                </div>
+                <div class="hc-input-group" data-aos="fade-up" data-aos-delay="200" data-aos-duration="600">
+                    <label style="color: #ffffff;">Tingkat Aktivitas Fisik</label>
+                    <select id="activity" required style="color: #ffffff;">
+                        <option value="" style="color: #ffffff;">Pilih tingkat aktivitas...</option>
+                        <option value="1.2" style="color: #ffffff;">Sangat Rendah (Jarang olahraga)</option>
+                        <option value="1.375" style="color: #ffffff;">Ringan (1-3 hari/minggu)</option>
+                        <option value="1.55" style="color: #ffffff;">Sedang (3-5 hari/minggu)</option>
+                        <option value="1.725" style="color: #ffffff;">Aktif (6-7 hari/minggu)</option>
+                        <option value="1.9" style="color: #ffffff;">Sangat Aktif (Atlet)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-grid-2">
+                <div class="hc-input-group" data-aos="fade-up" data-aos-delay="100" data-aos-duration="600">
+                    <label style="color: #ffffff;">Target</label>
+                    <select id="target" required style="color: #ffffff;">
+                        <option value="maintain" style="color: #ffffff;">Maintain (Menjaga Berat Badan)</option>
+                        <option value="loss" style="color: #ffffff;">Weight Loss (Menurunkan BB)</option>
+                        <option value="gain" style="color: #ffffff;">Weight Gain (Menaikkan BB)</option>
+                    </select>
+                </div>
+                
+                <div class="hc-input-group" id="targetKgGroup" style="display: none;" data-aos="fade-up" data-aos-delay="200" data-aos-duration="600">
+                    <label style="color: #ffffff;">Berapa KG Target Anda?</label>
+                    <select id="targetKg" style="color: #ffffff;">
+                        <option value="0" style="color: #ffffff;">Pilih target (kg)</option>
+                        <option value="1" style="color: #ffffff;">1 kg</option>
+                        <option value="2" style="color: #ffffff;">2 kg</option>
+                        <option value="3" style="color: #ffffff;">3 kg</option>
+                        <option value="5" style="color: #ffffff;">5 kg</option>
+                        <option value="10" style="color: #ffffff;">10 kg</option>
+                    </select>
+                </div>
+            </div>
+
+            <h2 style="font-size: 20px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-top: 30px; margin-bottom: 15px; color: #ffffff;" data-aos="fade-up" data-aos-duration="600">
+                2. Riwayat Kesehatan
+            </h2>
+            <div class="hc-input-group" data-aos="fade-up" data-aos-duration="600">
+                <label style="margin-bottom: 10px; color: #ffffff;">Pilih semua yang sesuai (Opsional)</label>
+                <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+                    <label style="font-weight: normal; color: #ffffff; display: flex; align-items: center;">
+                        <input type="checkbox" name="history" value="Diabetes" style="width: 18px; height: 18px; margin-right: 8px;"> Diabetes
+                    </label>
+                    <label style="font-weight: normal; color: #ffffff; display: flex; align-items: center;">
+                        <input type="checkbox" name="history" value="Hipertensi" style="width: 18px; height: 18px; margin-right: 8px;"> Hipertensi
+                    </label>
+                    <label style="font-weight: normal; color: #ffffff; display: flex; align-items: center;">
+                        <input type="checkbox" name="history" value="Kolesterol Tinggi" style="width: 18px; height: 18px; margin-right: 8px;"> Kolesterol Tinggi
+                    </label>
+                    <label style="font-weight: normal; color: #ffffff; display: flex; align-items: center;">
+                        <input type="checkbox" name="history" value="GERD" style="width: 18px; height: 18px; margin-right: 8px;"> Asam Lambung / GERD
+                    </label>
+                </div>
+            </div>
+
+            <h2 style="font-size: 20px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-top: 20px; margin-bottom: 15px; color: #ffffff;" data-aos="fade-up" data-aos-duration="600">
+                3. Pantangan & Preferensi Makanan
+            </h2>
+            <div class="hc-input-group" data-aos="fade-up" data-aos-duration="600">
+                <label style="margin-bottom: 10px; color: #ffffff;">Pilih semua yang sesuai (Opsional)</label>
+                <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+                    <label style="font-weight: normal; color: #ffffff; display: flex; align-items: center;">
+                        <input type="checkbox" name="restrictions" value="Alergi Seafood" style="width: 18px; height: 18px; margin-right: 8px;"> Alergi Seafood
+                    </label>
+                    <label style="font-weight: normal; color: #ffffff; display: flex; align-items: center;">
+                        <input type="checkbox" name="restrictions" value="Alergi Telur" style="width: 18px; height: 18px; margin-right: 8px;"> Alergi Telur
+                    </label>
+                    <label style="font-weight: normal; color: #ffffff; display: flex; align-items: center;">
+                        <input type="checkbox" name="restrictions" value="Vegetarian" style="width: 18px; height: 18px; margin-right: 8px;"> Vegetarian
+                    </label>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px;" data-aos="fade-up" data-aos-duration="600">
+                <button type="submit" class="btn-primary" style="width: 100%; padding: 16px; font-size: 18px;">
+                    <i class="fas fa-calculator" style="margin-right: 10px;"></i> Analisis Kesehatan Sekarang
+                </button>
+            </div>
+        </form>
+
+        <div id="results">
+            <div style="border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 25px; margin-top: 40px;" data-aos="fade-up" data-aos-duration="600">
+                <h2 style="font-size: 24px; font-weight: 700; margin:0; color: #ffffff;">Hasil Analisis Gaya Hidup</h2>
+            </div>
+
+            <div class="visual-grid">
+                <div class="viz-card" data-aos="fade-up" data-aos-delay="100" data-aos-duration="600">
+                    <div class="viz-label" style="color: #ffffff;">Lifestyle Score</div>
+                    <div class="circular-progress" id="healthScoreCircle">
+                        <span class="progress-value" id="healthScoreText" style="color: #ffffff;">0</span>
+                    </div>
+                    <span style="font-size: 13px; color: #ffffff; opacity: 0.8; margin-top: 10px; display: block;" id="healthScoreLabel">-</span>
+                </div>
+                <div class="viz-card" data-aos="fade-up" data-aos-delay="200" data-aos-duration="600">
+                    <div class="viz-label" style="color: #ffffff;">BMI</div>
+                    <div class="viz-number" id="bmiText" style="color: #ffffff;">-</div>
+                    <div class="linear-progress-track">
+                        <div class="linear-progress-fill" id="bmiBar" style="width: 0%;"></div>
+                    </div>
+                    <span style="font-size: 13px; color: #ffffff; opacity: 0.8; margin-top: 10px; display: block;" id="bmiCategoryText">-</span>
+                </div>
+                <div class="viz-card" data-aos="fade-up" data-aos-delay="300" data-aos-duration="600">
+                    <div class="viz-label" style="color: #ffffff;">Kalori / Hari</div>
+                    <div class="viz-number" id="calorieText" style="color: #ffffff;">- kcal</div>
+                    <div class="linear-progress-track">
+                        <div class="linear-progress-fill" id="calorieBar" style="width: 0%;"></div>
+                    </div>
+                    <span style="font-size: 13px; color: #ffffff; opacity: 0.8; margin-top: 10px; display: block;">Berdasarkan aktivitas</span>
+                </div>
+                <div class="viz-card" data-aos="fade-up" data-aos-delay="400" data-aos-duration="600">
+                    <div class="viz-label" style="color: #ffffff;">Estimasi Target</div>
+                    <div class="viz-number" id="targetTimeText" style="color: #ffffff;">-</div>
+                    <div id="targetBarWrapper">
+                        <div class="linear-progress-track">
+                            <div class="linear-progress-fill" id="targetBar" style="width: 0%; background: linear-gradient(to right, #FFC107, #FF9800);"></div>
+                        </div>
+                    </div>
+                    <div id="warningEmojiWrapper" style="display: none; margin: 10px 0;">
+                        <div style="font-size: 60px; line-height: 1; margin-bottom: 5px;">⚠️</div>
+                    </div>
+                    <span style="font-size: 13px; color: #ffffff; opacity: 0.8; margin-top: 10px; display: block;" id="targetLabel">-</span>
+                </div>
+            </div>
+
+            <div class="form-grid-3" style="background: rgba(0,0,0,0.2); padding: 25px; border-radius: 20px; margin-top: 20px;" data-aos="fade-up" data-aos-duration="600">
+                <div style="text-align: center; border-right: 1px solid rgba(255,255,255,0.1);">
+                    <div style="font-size: 13px; opacity: 0.7; font-weight: 600; color: #ffffff;">Berat Ideal (Broca)</div>
+                    <div style="font-size: 26px; font-weight: bold; color: #4CAF50; margin-top: 5px;" id="idealWeightText">- kg</div>
+                </div>
+                <div style="text-align: center; border-right: 1px solid rgba(255,255,255,0.1);">
+                    <div style="font-size: 13px; opacity: 0.7; font-weight: 600; color: #ffffff;">Status Berat</div>
+                    <div style="font-size: 26px; font-weight: bold; color: #ffffff; margin-top: 5px;" id="statusWeightText">-</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 13px; opacity: 0.7; font-weight: 600; color: #ffffff;">BMR</div>
+                    <div style="font-size: 26px; font-weight: bold; color: #ffffff; margin-top: 5px;" id="bmrText">- kcal</div>
+                </div>
+            </div>
+
+            <div class="form-grid-3" style="margin-top: 20px;">
+                <div class="viz-card" style="background: rgba(76, 175, 80, 0.2); border: 1px solid #4CAF50;" data-aos="fade-up" data-aos-delay="100" data-aos-duration="600">
+                    <div class="viz-label" style="color: #ffffff;">Target Protein Harian</div>
+                    <div class="viz-number" style="font-size: 24px; color: #4CAF50;" id="proteinText">- g</div>
+                    <div style="font-size: 11px; opacity: 0.7; margin-top: 5px; color: #ffffff;">Jumlah asupan yang disarankan per hari berdasarkan kebutuhan kalori.</div>
+                </div>
+                <div class="viz-card" style="background: rgba(33, 150, 243, 0.2); border: 1px solid #2196F3;" data-aos="fade-up" data-aos-delay="200" data-aos-duration="600">
+                    <div class="viz-label" style="color: #ffffff;">Target Karbohidrat Harian</div>
+                    <div class="viz-number" style="font-size: 24px; color: #2196F3;" id="carbsText">- g</div>
+                    <div style="font-size: 11px; opacity: 0.7; margin-top: 5px; color: #ffffff;">Jumlah asupan yang disarankan per hari berdasarkan kebutuhan kalori.</div>
+                </div>
+                <div class="viz-card" style="background: rgba(255, 193, 7, 0.2); border: 1px solid #FFC107;" data-aos="fade-up" data-aos-delay="300" data-aos-duration="600">
+                    <div class="viz-label" style="color: #ffffff;">Target Lemak Harian</div>
+                    <div class="viz-number" style="font-size: 24px; color: #FFC107;" id="fatText">- g</div>
+                    <div style="font-size: 11px; opacity: 0.7; margin-top: 5px; color: #ffffff;">Jumlah asupan yang disarankan per hari berdasarkan kebutuhan kalori.</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; display: flex; gap: 20px; flex-wrap: wrap; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 15px;" data-aos="fade-up" data-aos-duration="600">
+                <div style="flex: 1;">
+                    <div style="font-size: 14px; font-weight: 600; color: #ffffff; margin-bottom: 8px;">📋 Riwayat Kesehatan Terpilih:</div>
+                    <div id="displayHistory" style="font-size: 14px; color: #ffffff;">-</div>
+                </div>
+                <div style="flex: 1;">
+                    <div style="font-size: 14px; font-weight: 600; color: #ffffff; margin-bottom: 8px;">⚠️ Pantangan & Preferensi:</div>
+                    <div id="displayRestrictions" style="font-size: 14px; color: #ffffff;">-</div>
+                </div>
+            </div>
+
+            <div id="insightContainer" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 20px;"></div>
+
+            <div style="margin-top: 30px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px;" data-aos="fade-up" data-aos-duration="600">
+                <button type="button" onclick="window.location.reload();" class="btn-secondary" style="border-color: rgba(255,255,255,0.3); padding: 12px 30px; color: #ffffff;">
+                    <i class="fas fa-redo" style="margin-right: 8px;"></i> Hitung Ulang
+                </button>
+                
+                <a href="konsultasi.html" class="btn-primary" style="padding: 14px 40px; font-size: 17px; width: fit-content;">
+                    <i class="fas fa-user-md" style="margin-right: 10px;"></i> Konsultasi Sekarang
+                </a>
+
+                <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.05); border-left: 4px solid #6F943B; border-radius: 8px; text-align: left; max-width: 800px;">
+                    <p style="font-size: 13px; color: #ffffff; line-height: 1.6; margin: 0;">
+                        <i class="fas fa-shield-alt" style="color: #6F943B; margin-right: 8px;"></i>
+                        <strong>Disclaimer:</strong> Hasil analisis pada JagaTubuh merupakan estimasi berdasarkan data yang dimasukkan pengguna. Website ini bertujuan sebagai pendamping gaya hidup sehat dan bukan pengganti konsultasi dengan dokter atau ahli gizi.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 JagaTubuh. Teman digital untuk gaya hidup sehat.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        function toggleSidebar() {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.getElementById('hamburgerIcon');
+            
+            menu.classList.toggle('open');
+            
+            if (menu.classList.contains('open')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        }
+
+        const user = JSON.parse(localStorage.getItem('jagaTubuhCurrentUser'));
+        const userNameDisplay = document.getElementById('userNameDisplay');
+        const loginBtn = document.getElementById('loginBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        if (user) {
+            userNameDisplay.innerText = user.name || 'User';
+            loginBtn.style.display = 'none';
+            logoutBtn.style.display = 'inline-block';
+            
+            const menuLoginBtn = document.getElementById('menuLoginBtn');
+            if(menuLoginBtn) {
+                menuLoginBtn.innerText = 'Logout';
+                menuLoginBtn.style.color = '#ff6b6b';
+                menuLoginBtn.onclick = function(e) { e.preventDefault(); logoutUser(); };
+            }
+
+            const desktopLoginBtn = document.getElementById('desktopLoginBtn');
+            if(desktopLoginBtn) {
+                desktopLoginBtn.innerText = 'Logout';
+                desktopLoginBtn.style.color = '#ff6b6b';
+                desktopLoginBtn.onclick = function(e) { e.preventDefault(); logoutUser(); };
+            }
+        } else {
+            userNameDisplay.innerText = 'Tamu';
+            loginBtn.style.display = 'inline-block';
+            logoutBtn.style.display = 'none';
+
+            const menuLoginBtn = document.getElementById('menuLoginBtn');
+            if(menuLoginBtn) {
+                menuLoginBtn.innerText = 'Login';
+                menuLoginBtn.style.color = '#6F943B';
+                menuLoginBtn.href = 'login.html';
+                menuLoginBtn.onclick = null;
+            }
+
+            const desktopLoginBtn = document.getElementById('desktopLoginBtn');
+            if(desktopLoginBtn) {
+                desktopLoginBtn.innerText = 'Login';
+                desktopLoginBtn.style.color = '#6F943B';
+                desktopLoginBtn.href = 'login.html';
+                desktopLoginBtn.onclick = null;
+            }
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('jagaTubuhCurrentUser');
+            window.location.reload();
+        }
+
+        document.getElementById('target').addEventListener('change', function() {
+            const targetKgGroup = document.getElementById('targetKgGroup');
+            if (this.value === 'loss' || this.value === 'gain') {
+                targetKgGroup.style.display = 'block';
+            } else {
+                targetKgGroup.style.display = 'none';
+            }
+        });
+
+        window.addEventListener('load', function() {
+            window.scrollTo(0, 0);
+        });
+    </script>
+    <script src="js/calculator.js"></script>
+</body>
+</html>

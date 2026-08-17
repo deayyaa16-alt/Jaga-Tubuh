@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Beranda - JagaTubuh</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1f2e3a; 
+            padding-top: 75px;
+        }
+
+        .custom-header-revisi {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #264653;
+            padding: 0 20px;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            z-index: 999;
+            border-bottom: 3px solid #3a6b7a; 
+        }
+
+        .header-left-area { display: flex; align-items: center; }
+        .hamburger-left-btn {
+            background: none; border: none; padding: 0 15px 0 0;
+            display: none; align-items: center; justify-content: center;
+            cursor: pointer; color: #ffffff; font-size: 28px; transition: opacity 0.3s;
+        }
+        .hamburger-left-btn:hover { opacity: 0.8; }
+        .header-brand-area { display: flex; align-items: center; gap: 10px; }
+        .header-brand-area img { height: 34px; width: auto; display: block; }
+        .header-brand-area span { color: #ffffff; font-size: 22px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+
+        .nav-links-desktop { display: flex; align-items: center; gap: 25px; list-style: none; margin: 0; padding: 0; }
+        .nav-links-desktop a { color: #e0fbfc; text-decoration: none; font-size: 16px; font-weight: 600; transition: color 0.3s; }
+        .nav-links-desktop a:hover { color: #ffffff; opacity: 0.8; }
+        .nav-links-desktop a.active { color: #4CAF50; }
+
+        .mobile-sidebar-menu {
+            position: fixed; top: 70px; left: 0; width: 100%;
+            background-color: #1d3340; display: none; flex-direction: column; padding: 20px 0;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3); z-index: 998; border-bottom: 3px solid #3a6b7a;
+        }
+        .mobile-sidebar-menu.open { display: flex; }
+        .mobile-sidebar-menu a { color: #e0fbfc; text-decoration: none; padding: 15px 25px; font-size: 18px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.3s; }
+        .mobile-sidebar-menu a:hover { background-color: rgba(255,255,255,0.1); }
+        .mobile-sidebar-menu a.active { color: #4CAF50; }
+
+        @media (max-width: 992px) {
+            .custom-header-revisi { height: 60px; padding: 0 10px; }
+            body { padding-top: 65px; }
+            .nav-links-desktop { display: none !important; }
+            .hamburger-left-btn { display: flex !important; font-size: 24px; padding: 0 12px 0 0; }
+            .header-brand-area span { font-size: 18px; }
+            .header-brand-area img { height: 28px; }
+            .mobile-sidebar-menu { top: 60px; }
+        }
+
+        /* ============================================================
+           STEPS SLIDER - STEP NUMBER PERFECT CENTER
+           ============================================================ */
+        .steps-slider-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            padding: 20px 0;
+        }
+
+        .steps-slider { 
+            display: flex; 
+            width: 400%; 
+            transition: transform 0.6s ease-in-out; 
+        }
+
+        .step-item { 
+            width: 25%; 
+            flex-shrink: 0; 
+            text-align: center; 
+            padding: 20px; 
+            box-sizing: border-box; 
+        }
+
+        /* ✅ STEP NUMBER - PERFECT CENTERED */
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3a6b7a, #264653);
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 auto 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            text-align: center;
+            line-height: 1;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            flex-shrink: 0;
+            user-select: none;
+        }
+
+        .step-item h4 { 
+            color: #ffffff; 
+            font-size: 22px; 
+            margin: 10px 0; 
+        }
+
+        .step-item p { 
+            color: #d1d5db; 
+            font-size: 16px; 
+            line-height: 1.6; 
+        }
+
+        .slider-dots { 
+            display: flex; 
+            justify-content: center; 
+            gap: 10px; 
+            margin-top: 20px; 
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .slider-dot:hover { transform: scale(1.2); }
+        .slider-dot.active { 
+            background: #3a6b7a; 
+            transform: scale(1.2); 
+            box-shadow: 0 0 10px rgba(58, 107, 122, 0.5); 
+        }
+
+        @media (max-width: 992px) {
+            .steps-slider .step-item { width: 25% !important; flex: 0 0 25% !important; }
+        }
+
+        @media (max-width: 768px) {
+            .steps-slider .step-item { padding: 10px 5px; }
+            .step-number { width: 50px; height: 50px; font-size: 20px; }
+            .slider-dot { width: 10px; height: 10px; }
+            .steps-slider-container { padding: 10px 0; }
+        }
+
+        @media (max-width: 480px) {
+            .step-number { width: 45px; height: 45px; font-size: 18px; }
+            .step-item h4 { font-size: 16px; }
+            .step-item p { font-size: 13px; }
+        }
+
+        .about-premium-section, .contact-premium-section {
+            background: var(--nav-color) !important;
+            border-radius: 25px !important;
+            border: 2px solid var(--primary) !important;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3) !important;
+            margin: 40px !important;
+            color: white !important;
+        }
+
+        .about-premium-card, .contact-info-item, .contact-premium-form {
+            background: rgba(255,255,255,0.04) !important;
+            border: 1px solid rgba(255,255,255,0.08) !important;
+            color: white !important;
+        }
+
+        .btn-submit-premium {
+            background: linear-gradient(135deg, var(--cta-accent), #E68A00) !important;
+            color: white !important;
+            border: none !important;
+            font-weight: 700 !important;
+        }
+
+        .btn-submit-premium:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(255, 154, 0, 0.3) !important; }
+        
+        @media (max-width: 768px) {
+            .btn-primary, .btn-secondary { width: 100% !important; justify-content: center; }
+        }
+
+        .contact-premium-form .form-label {
+            color: #ffffff !important;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .contact-premium-form .form-control {
+            background: rgba(255, 255, 255, 0.06) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            color: #ffffff !important;
+        }
+
+        .contact-premium-form .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5) !important;
+        }
+
+        /* ============================================================
+           HERO SECTION
+           ============================================================ */
+        .hero {
+            position: relative;
+            margin: 30px 40px;
+            height: 420px;
+            border-radius: 25px;
+            overflow: hidden;
+            background-color: #1f2e3a;
+            border: 2px solid var(--primary);
+        }
+
+        .hero-bg { 
+            position: absolute; 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
+            opacity: 1; 
+            z-index: 1; 
+        }
+
+        .hero-content { 
+            position: relative; 
+            z-index: 2; 
+            width: 100%; 
+            height: 100%; 
+            display: flex; 
+            align-items: flex-end; 
+            padding: 0; 
+        }
+
+        .hero-doctor { 
+            height: 400px; 
+            border-radius: 10px; 
+            z-index: 3; 
+            margin-bottom: -5px; 
+            margin-left: 20px; 
+        }
+
+        .hero-text {
+            position: absolute;
+            top: 20px;
+            left: 350px;
+            z-index: 4;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            max-width: 600px;
+        }
+
+        .hero-text h1 { 
+            font-size: 38px; 
+            font-weight: 800; 
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.9); 
+            margin-bottom: 15px; 
+            line-height: 1.2; 
+        }
+
+        .hero-text p { 
+            font-size: 18px; 
+            font-weight: 500; 
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9); 
+            line-height: 1.5; 
+            opacity: 0.95; 
+            margin-bottom: 25px; 
+        }
+
+        .hero-cta { display: flex; gap: 15px; flex-wrap: wrap; }
+
+        .profile-badge { 
+            position: absolute; 
+            top: 15px; 
+            right: 20px; 
+            background-color: var(--primary); 
+            color: var(--bg-dark); 
+            padding: 6px 18px; 
+            border-radius: 20px; 
+            font-size: 13px; 
+            font-weight: bold; 
+            z-index: 5; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.4); 
+        }
+
+        .profile-badge a,
+        .profile-badge a:visited,
+        .profile-badge a:hover,
+        .profile-badge a:active {
+            color: #ffffff !important;
+            text-decoration: none !important;
+        }
+
+        @media (max-width: 992px) {
+            .hero-text {
+                left: 20px;
+                right: 20px;
+                max-width: 90%;
+            }
+            .hero-text h1 {
+                font-size: 30px;
+            }
+            .hero-doctor {
+                height: 280px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                height: auto;
+                padding: 20px 0;
+                margin: 20px;
+                flex-direction: column;
+                align-items: center;
+                min-height: 500px;
+                border-radius: 16px;
+            }
+
+            .hero-content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                padding: 10px;
+                gap: 15px;
+                height: auto;
+                justify-content: center;
+            }
+
+            .hero-doctor {
+                height: 180px;
+                margin: 10px auto 0;
+            }
+
+            .hero-text {
+                position: relative;
+                top: 0;
+                left: 0;
+                text-align: center;
+                align-items: center;
+                margin-top: 10px;
+                max-width: 100%;
+                padding: 0 15px;
+            }
+
+            .hero-text h1 {
+                font-size: 26px;
+            }
+
+            .hero-text p {
+                font-size: 15px;
+            }
+
+            .hero-cta {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .hero-cta .btn-primary,
+            .hero-cta .btn-secondary {
+                font-size: 14px;
+                padding: 10px 20px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .profile-badge {
+                top: 10px;
+                right: 10px;
+                font-size: 11px;
+                padding: 4px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                margin: 10px;
+                min-height: 450px;
+                border-radius: 16px;
+            }
+
+            .hero-text h1 {
+                font-size: 22px;
+            }
+
+            .hero-text p {
+                font-size: 13px;
+            }
+
+            .hero-doctor {
+                height: 140px;
+            }
+
+            .hero-cta .btn-primary,
+            .hero-cta .btn-secondary {
+                font-size: 12px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="custom-header-revisi">
+        <div class="header-left-area">
+            <button class="hamburger-left-btn" onclick="toggleSidebar()">
+                <i class="fas fa-bars" id="hamburgerIcon"></i>
+            </button>
+            <div class="header-brand-area">
+                <img src="LOGO.png" alt="Logo JagaTubuh" onerror="this.src='https://via.placeholder.com/40/264653/ffffff?text=+'" />
+                <span>JAGA TUBUH</span>
+            </div>
+        </div>
+        <ul class="nav-links-desktop">
+            <li><a href="index.html" class="active">Beranda</a></li>
+            <li><a href="health-check.html">Cek Kesehatan</a></li>
+            <li><a href="konsultasi.html">Konsultasi Gizi</a></li>
+            <li><a href="community.html">Komunitas</a></li>
+            <li><a href="login.html" id="desktopLoginBtn" style="color: #6F943B; font-weight: 700;">Login</a></li>
+        </ul>
+    </header>
+
+    <div class="mobile-sidebar-menu" id="mobileMenu">
+        <a href="index.html" class="active">Beranda</a>
+        <a href="health-check.html">Cek Kesehatan</a>
+        <a href="konsultasi.html">Konsultasi Gizi</a>
+        <a href="community.html">Komunitas</a>
+        <a href="login.html" id="menuLoginBtn" style="color: #6F943B;">Login</a>
+    </div>
+
+    <div class="loader-overlay" id="loaderOverlay">
+        <div class="loader-logo">JAGA <span>TUBUH</span></div>
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Memuat</div>
+        <div class="loader-dots"><span></span><span></span><span></span></div>
+    </div>
+
+    <!-- ============================================================
+         HERO SECTION
+         ============================================================ -->
+    <section class="hero">
+        <img src="bg beranda.png" alt="Background" class="hero-bg">
+        <div class="hero-content">
+            <img src="DOKTER.png" alt="Dokter" class="hero-doctor">
+            <div class="hero-text">
+                <h1>Wujudkan Hidup Sehat <br>dengan <span style="color:var(--cta-accent);">JagaTubuh</span></h1>
+                <p>Pantau kesehatan, konsultasi dengan ahli gizi,<br>dan bangun kebiasaan sehat bersama komunitas.</p>
+                <div class="hero-cta">
+                    <a href="health-check.html" class="btn-primary">Mulai Cek Kesehatan</a>
+                    <a href="konsultasi.html" class="btn-secondary">Konsultasi Sekarang</a>
+                </div>
+            </div>
+            <span class="profile-badge" id="profileBadge" style="display: none;">
+                <a href="dashboard.html"><i class="fas fa-user-circle"></i> Profil</a>
+            </span>
+        </div>
+    </section>
+
+    <section class="section-container" data-aos="fade-up" data-aos-duration="800">
+        <h2 class="section-title">Prevalensi <span>di Indonesia</span></h2>
+        <div class="stats-wrapper">
+            <div class="chart-grid">
+                <div class="chart-card" data-aos="fade-up" data-aos-delay="100" data-aos-duration="800">
+                    <div class="big-number">95,7%</div>
+                    <div class="label">Kurang Konsumsi Sayur & Buah</div>
+                    <div class="chart-bar-visual" style="height: 140px;"></div>
+                    <div class="source">Sumber: Riskesdas 2023</div>
+                </div>
+                <div class="chart-card" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
+                    <div class="big-number">67,8%</div>
+                    <div class="label">Kurang Aktivitas Fisik</div>
+                    <div class="chart-bar-visual" style="height: 100px;"></div>
+                    <div class="source">Sumber: Riskesdas 2023</div>
+                </div>
+                <div class="chart-card" data-aos="fade-up" data-aos-delay="300" data-aos-duration="800">
+                    <div class="big-number">1 dari 3</div>
+                    <div class="label">Dewasa Mengidap Hipertensi</div>
+                    <div class="chart-bar-visual" style="height: 60px;"></div>
+                    <div class="source">Sumber: Riskesdas 2023</div>
+                </div>
+                <div class="chart-card" data-aos="fade-up" data-aos-delay="400" data-aos-duration="800">
+                    <div class="big-number">35,2%</div>
+                    <div class="label">Penduduk BB Berlebih</div>
+                    <div class="chart-bar-visual" style="height: 80px;"></div>
+                    <div class="source">Sumber: Riskesdas 2023</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container" data-aos="fade-up" data-aos-duration="800">
+        <h2 class="section-title">JagaTubuh Hadir Sebagai <span>Solusi</span></h2>
+        <p style="text-align: center; opacity: 0.8; max-width: 700px; margin: 0 auto 30px;">Kami membangun ekosistem digital untuk membantumu memantau kesehatan, memperbaiki pola makan, dan membangun kebiasaan baik secara bertahap.</p>
+        <div class="section-wrapper">
+            <div class="solutions-grid">
+                <div class="solution-card" data-aos="fade-up" data-aos-delay="100" data-aos-duration="800">
+                    <i class="fas fa-heartbeat"></i>
+                    <h3>Health Check & Score</h3>
+                    <p>Analisis kesehatan secara komprehensif dengan skor yang mudah dipahami dan rekomendasi personal.</p>
+                </div>
+                <div class="solution-card" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
+                    <i class="fas fa-utensils"></i>
+                    <h3>Konsultasi Gizi</h3>
+                    <p>Konsultasi langsung dengan ahli gizi profesional untuk mendapatkan saran nutrisi yang tepat.</p>
+                </div>
+                <div class="solution-card" data-aos="fade-up" data-aos-delay="300" data-aos-duration="800">
+                    <i class="fas fa-users"></i>
+                    <h3>Komunitas Sehat</h3>
+                    <p>Saling memberi semangat, berbagi pencapaian, dan tumbuh bersama dalam komunitas yang suportif.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container" data-aos="fade-up" data-aos-duration="800">
+        <h2 class="section-title">Bagaimana <span>Cara Kerjanya?</span></h2>
+        <p style="text-align: center; opacity: 0.8; max-width: 600px; margin: 0 auto 30px;">Hanya dalam beberapa langkah sederhana, kamu sudah bisa memulai perjalanan menuju hidup yang lebih sehat.</p>
+        <div class="section-wrapper">
+            <div class="steps-slider-container">
+                <div class="steps-slider" id="stepsSlider">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <h4>Mulai dari Beranda</h4>
+                        <p>Klik tombol "Cek Kesehatan" untuk memulai analisis data diri.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <h4>Analisis Kesehatan</h4>
+                        <p>Inputkan data fisikmu (umur, berat, tinggi) untuk mendapatkan Skor Kesehatan.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <h4>Konsultasi Gizi</h4>
+                        <p>Konsultasikan hasil analisis dengan ahli gizi profesional untuk rekomendasi tepat.</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <h4>Bergabung & Berkembang</h4>
+                        <p>Ikuti rekomendasi diet dan berbagi cerita di Komunitas untuk tetap semangat.</p>
+                    </div>
+                </div>
+                <div class="slider-dots" id="stepsDots"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container" data-aos="fade-up" data-aos-duration="800">
+        <h2 class="section-title">Apa yang Akan Kamu <span>Dapatkan?</span></h2>
+        <div class="section-wrapper">
+            <div class="results-grid">
+                <div class="result-box" data-aos="fade-up" data-aos-delay="100" data-aos-duration="800">
+                    <i class="fas fa-stethoscope"></i>
+                    <h4>Kenali Kondisimu</h4>
+                    <p>Mengetahui status kesehatan terkini secara akurat dan ilmiah.</p>
+                </div>
+                <div class="result-box" data-aos="fade-up" data-aos-delay="200" data-aos-duration="800">
+                    <i class="fas fa-apple-alt"></i>
+                    <h4>Diet Tepat Sasaran</h4>
+                    <p>Mendapat rekomendasi menu makanan yang sesuai dengan kebutuhan tubuhmu.</p>
+                </div>
+                <div class="result-box" data-aos="fade-up" data-aos-delay="300" data-aos-duration="800">
+                    <i class="fas fa-seedling"></i>
+                    <h4>Bangun Kebiasaan Baik</h4>
+                    <p>Bertahap membangun gaya hidup sehat yang berkelanjutan bersama komunitas.</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 40px; padding: 40px; background: var(--primary); border-radius: 20px; text-align: center; box-shadow: 0 6px 15px rgba(0,0,0,0.3);" data-aos="fade-up" data-aos-duration="800">
+            <h3 style="font-size: 22px; font-weight: 700; margin-bottom: 10px; color: white;">
+                <i class="fas fa-user-md" style="margin-right: 10px;"></i>
+                Konsultasi Gizi dengan Dokter
+            </h3>
+            <p style="font-size: 16px; opacity: 0.9; margin-bottom: 20px; color: white; max-width: 700px; margin-left: auto; margin-right: auto;">
+                Dapatkan saran nutrisi personal dari tenaga profesional. Lampirkan data Cek Kesehatan Anda untuk konsultasi yang lebih efektif dan terarah.
+            </p>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <a href="konsultasi.html" class="btn-primary">
+                    <i class="fas fa-calendar-check"></i> Booking Konsultasi
+                </a>
+                <a href="health-check.html" class="btn-primary">
+                    <i class="fas fa-heartbeat"></i> Cek Kesehatan Dulu
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-premium-section" data-aos="fade-up" data-aos-duration="800">
+        <div class="about-premium-header text-center mb-4">
+            <h2 class="section-title">Tentang <span>JagaTubuh</span></h2>
+            <p class="about-premium-subtitle">Membangun Indonesia Sehat Melalui Teknologi</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-12 col-md-6">
+                <div class="about-premium-card h-100 p-4 text-center border rounded">
+                    <div class="card-icon-wrap mb-3">
+                        <div class="card-icon mx-auto" style="width: 75px; height: 75px; background: linear-gradient(135deg, var(--primary), var(--primary-hover)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: white;">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                    </div>
+                    <h3>Visi</h3>
+                    <p>Mewujudkan Indonesia yang lebih sehat dengan memberdayakan setiap individu untuk mengelola kesehatan secara mandiri melalui teknologi yang mudah diakses.</p>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="about-premium-card h-100 p-4 text-center border rounded">
+                    <div class="card-icon-wrap mb-3">
+                        <div class="card-icon mx-auto" style="width: 75px; height: 75px; background: linear-gradient(135deg, var(--primary), var(--primary-hover)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; color: white;">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                    </div>
+                    <h3>Misi</h3>
+                    
+                    <!-- ✅ BAGIAN INI SAYA UBAH! SEKARANG ANGKA 01, 02, 03 PAS DI TENGAH LINGKARAN -->
+                    <div class="text-start">
+                        <!-- Misi 1 -->
+                        <div class="mission-item mb-2 border-bottom pb-2 d-flex align-items-center gap-3">
+                            <div class="mission-number d-flex align-items-center justify-content-center" 
+                                 style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary), var(--primary-hover)); border-radius: 50%; color: white; font-size: 13px; font-weight: 700; flex-shrink: 0;">
+                                01
+                            </div>
+                            <p class="mb-0" style="font-size: 14px; color: rgba(255, 255, 255, 0.85);">Menyediakan alat analisis kesehatan yang akurat dan mudah digunakan.</p>
+                        </div>
+
+                        <!-- Misi 2 -->
+                        <div class="mission-item mb-2 border-bottom pb-2 d-flex align-items-center gap-3">
+                            <div class="mission-number d-flex align-items-center justify-content-center" 
+                                 style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary), var(--primary-hover)); border-radius: 50%; color: white; font-size: 13px; font-weight: 700; flex-shrink: 0;">
+                                02
+                            </div>
+                            <p class="mb-0" style="font-size: 14px; color: rgba(255, 255, 255, 0.85);">Membantu pengguna membuat pilihan kesehatan yang lebih baik melalui rekomendasi personal.</p>
+                        </div>
+
+                        <!-- Misi 3 -->
+                        <div class="mission-item d-flex align-items-center gap-3">
+                            <div class="mission-number d-flex align-items-center justify-content-center" 
+                                 style="width: 36px; height: 36px; background: linear-gradient(135deg, var(--primary), var(--primary-hover)); border-radius: 50%; color: white; font-size: 13px; font-weight: 700; flex-shrink: 0;">
+                                03
+                            </div>
+                            <p class="mb-0" style="font-size: 14px; color: rgba(255, 255, 255, 0.85);">Menciptakan ruang di mana setiap orang bisa saling mendukung dan bertumbuh bersama.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="kontak" class="contact-premium-section" data-aos="fade-up" data-aos-duration="800">
+        <div class="contact-premium-header text-center mb-4">
+            <h2 class="section-title">Hubungi <span>Kami</span></h2>
+            <p class="contact-premium-subtitle">Ada pertanyaan? Tim kami siap membantu.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-12 col-md-6">
+                <div class="contact-premium-info d-flex flex-column gap-3">
+                    <div class="contact-info-item d-flex align-items-center p-3 rounded border">
+                        <div class="info-icon me-3" style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary), var(--primary-hover)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: white; flex-shrink: 0;">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4 class="mb-0" style="font-size: 13px; font-weight: 600; color: var(--primary-light);">Kantor</h4>
+                            <p class="mb-0">Jakarta Healthtech Center, Jl. Sudirman No. 45</p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item d-flex align-items-center p-3 rounded border">
+                        <div class="info-icon me-3" style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary), var(--primary-hover)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: white; flex-shrink: 0;">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4 class="mb-0" style="font-size: 13px; font-weight: 600; color: var(--primary-light);">Email</h4>
+                            <p class="mb-0">support@jagatubuh.id</p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item d-flex align-items-center p-3 rounded border">
+                        <div class="info-icon me-3" style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary), var(--primary-hover)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: white; flex-shrink: 0;">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4 class="mb-0" style="font-size: 13px; font-weight: 600; color: var(--primary-light);">Telepon</h4>
+                            <p class="mb-0">+62 812-3456-7890 <span class="badge-247 badge bg-warning text-dark ms-1" style="font-size: 9px; padding: 2px 10px;">24/7</span></p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item d-flex align-items-center p-3 rounded border">
+                        <div class="info-icon me-3" style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary), var(--primary-hover)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; color: white; flex-shrink: 0;">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4 class="mb-0" style="font-size: 13px; font-weight: 600; color: var(--primary-light);">Jam Kerja</h4>
+                            <p class="mb-0">Senin – Minggu · 08.00 – 20.00 WIB</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="contact-premium-form p-4 rounded border">
+                    <form id="contactForm" onsubmit="return handleContactForm(event)">
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Nama Lengkap</label>
+                            <div class="position-relative">
+                                <i class="fas fa-user position-absolute top-50 start-0 translate-middle-y ms-3" style="color: rgba(255,255,255,0.5);"></i>
+                                <input type="text" class="form-control ps-5" placeholder="Masukkan nama Anda" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <div class="position-relative">
+                                <i class="fas fa-envelope position-absolute top-50 start-0 translate-middle-y ms-3" style="color: rgba(255,255,255,0.5);"></i>
+                                <input type="email" class="form-control ps-5" placeholder="Masukkan email Anda" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Topik</label>
+                            <div class="position-relative">
+                                <i class="fas fa-chevron-down position-absolute top-50 end-0 translate-middle-y me-3" style="color: rgba(255,255,255,0.5);"></i>
+                                <select class="form-control ps-3" required style="appearance: none;">
+                                    <option value="" disabled selected>Pilih topik...</option>
+                                    <option>Konsultasi Dokter</option>
+                                    <option>Health Check</option>
+                                    <option>Kerjasama</option>
+                                    <option>Lainnya</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Pesan</label>
+                            <div class="position-relative">
+                                <i class="fas fa-pencil-alt position-absolute top-0 start-0 mt-3 ms-3" style="color: rgba(255,255,255,0.5);"></i>
+                                <textarea class="form-control ps-5" placeholder="Tulis pesan Anda di sini..." rows="3" required style="resize: none;"></textarea>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-submit-premium w-100">
+                            <i class="fas fa-paper-plane"></i> Kirim Pesan
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 JagaTubuh. Teman digital untuk gaya hidup sehat.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true, offset: 100 });
+
+        function toggleSidebar() {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.getElementById('hamburgerIcon');
+            menu.classList.toggle('open');
+            if (menu.classList.contains('open')) {
+                icon.classList.remove('fa-bars'); icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times'); icon.classList.add('fa-bars');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('loaderOverlay');
+                if (loader) { loader.classList.add('hidden'); setTimeout(() => { loader.style.display = 'none'; }, 700); }
+            }, 1200);
+            updateNavbar(); updateProfileBadge(); startSlider();
+        });
+
+        function updateNavbar() {
+            const user = JSON.parse(localStorage.getItem('jagaTubuhCurrentUser'));
+            const menuLoginBtn = document.getElementById('menuLoginBtn');
+            const desktopLoginBtn = document.getElementById('desktopLoginBtn');
+            
+            if(user) {
+                if(menuLoginBtn) { menuLoginBtn.innerText = 'Logout'; menuLoginBtn.style.color = '#ff6b6b'; menuLoginBtn.onclick = function(e) { e.preventDefault(); logoutUser(); }; }
+                if(desktopLoginBtn) { desktopLoginBtn.innerText = 'Logout'; desktopLoginBtn.style.color = '#ff6b6b'; desktopLoginBtn.onclick = function(e) { e.preventDefault(); logoutUser(); }; }
+            } else {
+                if(menuLoginBtn) { menuLoginBtn.innerText = 'Login'; menuLoginBtn.style.color = '#6F943B'; menuLoginBtn.href = 'login.html'; menuLoginBtn.onclick = null; }
+                if(desktopLoginBtn) { desktopLoginBtn.innerText = 'Login'; desktopLoginBtn.style.color = '#6F943B'; desktopLoginBtn.href = 'login.html'; desktopLoginBtn.onclick = null; }
+            }
+        }
+
+        function updateProfileBadge() {
+            const user = JSON.parse(localStorage.getItem('jagaTubuhCurrentUser'));
+            const badge = document.getElementById('profileBadge');
+            if (user && badge) badge.style.display = 'inline-block';
+        }
+
+        function logoutUser() { localStorage.removeItem('jagaTubuhCurrentUser'); window.location.href = 'login.html'; }
+
+        function startSlider() {
+            const slider = document.getElementById('stepsSlider');
+            const dotsContainer = document.getElementById('stepsDots');
+            const slides = document.querySelectorAll('.step-item');
+            if (!slider || slides.length === 0) return;
+            
+            const total = slides.length;
+            let current = 0;
+            let interval;
+
+            if (dotsContainer) {
+                dotsContainer.innerHTML = '';
+                slides.forEach((_, i) => {
+                    const dot = document.createElement('span');
+                    dot.className = 'slider-dot' + (i === 0 ? ' active' : '');
+                    dot.dataset.index = i;
+                    dot.addEventListener('click', function() { goTo(parseInt(this.dataset.index)); });
+                    dotsContainer.appendChild(dot);
+                });
+            }
+
+            function goTo(index) {
+                if (index < 0) index = total - 1;
+                if (index >= total) index = 0;
+                current = index;
+
+                let offsetPercentage = 25;
+                if (window.innerWidth <= 768) {
+                    offsetPercentage = 100;
+                }
+
+                const offset = -current * offsetPercentage;
+                
+                slider.style.transition = 'transform 0.6s ease-in-out';
+                slider.style.transform = 'translateX(' + offset + '%)';
+                
+                document.querySelectorAll('.slider-dot').forEach((dot, i) => {
+                    dot.classList.toggle('active', i === current);
+                });
+            }
+
+            function next() { 
+                const nextIndex = (current + 1) % total;
+                goTo(nextIndex); 
+            }
+
+            function startAuto() { 
+                if (interval) clearInterval(interval); 
+
+                let intervalTime = 1000;
+                if (window.innerWidth <= 768) {
+                    intervalTime = 3000;
+                }
+
+                interval = setInterval(next, intervalTime); 
+            }
+
+            function stopAuto() { 
+                if (interval) { clearInterval(interval); interval = null; } 
+            }
+
+            goTo(0);
+            setTimeout(startAuto, 500);
+
+            const container = document.querySelector('.steps-slider-container');
+            if (container) { 
+                container.addEventListener('mouseenter', stopAuto); 
+                container.addEventListener('mouseleave', startAuto); 
+            }
+
+            window.addEventListener('resize', function() {
+                stopAuto();
+                goTo(current);
+                setTimeout(startAuto, 300);
+            });
+        }
+
+        function handleContactForm(event) {
+            event.preventDefault();
+            alert('✅ Pesan Anda telah terkirim! Tim kami akan segera merespon dalam 1x24 jam.');
+            document.getElementById('contactForm').reset();
+            return false;
+        }
+    </script>
+</body>
+</html>

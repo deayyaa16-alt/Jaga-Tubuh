@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Konsultasi Gizi - JagaTubuh</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1f2e3a;
+            padding-top: 75px;
+        }
+
+        .custom-header-revisi {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #264653;
+            padding: 0 20px;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            z-index: 999;
+            border-bottom: 3px solid #3a6b7a; 
+        }
+
+        .header-left-area {
+            display: flex;
+            align-items: center;
+        }
+
+        .hamburger-left-btn {
+            background: none;
+            border: none;
+            padding: 0 15px 0 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #ffffff;
+            font-size: 28px;
+            transition: opacity 0.3s;
+        }
+        .hamburger-left-btn:hover { opacity: 0.8; }
+
+        .header-brand-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-brand-area img {
+            height: 34px;
+            width: auto;
+            display: block;
+        }
+        .header-brand-area span {
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .nav-links-desktop {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links-desktop a {
+            color: #e0fbfc;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .nav-links-desktop a:hover {
+            color: #ffffff;
+            opacity: 0.8;
+        }
+        .nav-links-desktop a.active {
+            color: #4CAF50;
+        }
+
+        .mobile-sidebar-menu {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background-color: #1d3340;
+            display: none;
+            flex-direction: column;
+            padding: 20px 0;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+            z-index: 998;
+            border-bottom: 3px solid #3a6b7a;
+        }
+        
+        .mobile-sidebar-menu.open {
+            display: flex;
+        }
+
+        .mobile-sidebar-menu a {
+            color: #e0fbfc;
+            text-decoration: none;
+            padding: 15px 25px;
+            font-size: 18px;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background 0.3s;
+        }
+        .mobile-sidebar-menu a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        .mobile-sidebar-menu a.active {
+            color: #4CAF50;
+        }
+
+        @media (max-width: 992px) {
+            .custom-header-revisi { height: 60px; padding: 0 10px; }
+            body { padding-top: 65px; }
+
+            .nav-links-desktop { display: none !important; }
+
+            .hamburger-left-btn { display: flex !important; font-size: 24px; padding: 0 12px 0 0; }
+            
+            .header-brand-area span { font-size: 18px; }
+            .header-brand-area img { height: 28px; }
+            .mobile-sidebar-menu { top: 60px; }
+        }
+    </style>
+</head>
+<body class="consultation-page">
+
+    <header class="custom-header-revisi">
+        
+        <div class="header-left-area">
+            <button class="hamburger-left-btn" onclick="toggleSidebar()">
+                <i class="fas fa-bars" id="hamburgerIcon"></i>
+            </button>
+
+            <div class="header-brand-area">
+                <img src="LOGO.png" alt="Logo JagaTubuh" onerror="this.src='https://via.placeholder.com/40/264653/ffffff?text=+'" />
+                <span>JAGA TUBUH</span>
+            </div>
+        </div>
+
+        <ul class="nav-links-desktop">
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="health-check.html">Cek Kesehatan</a></li>
+            <li><a href="konsultasi.html" class="active">Konsultasi Gizi</a></li>
+            <li><a href="community.html">Komunitas</a></li>
+            <li><a href="login.html" id="desktopLoginBtn" style="color: #6F943B; font-weight: 700;">Login</a></li>
+        </ul>
+
+    </header>
+
+    <div class="mobile-sidebar-menu" id="mobileMenu">
+        <a href="index.html">Beranda</a>
+        <a href="health-check.html">Cek Kesehatan</a>
+        <a href="konsultasi.html" class="active">Konsultasi Gizi</a>
+        <a href="community.html">Komunitas</a>
+        <a href="login.html" id="menuLoginBtn" style="color: #6F943B;">Login</a>
+    </div>
+
+    <div class="login-required-overlay" id="loginRequiredOverlay">
+        <div class="login-required-card">
+            <div class="login-required-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h2>Akses Diperlukan</h2>
+            <p>Silakan login terlebih dahulu untuk mengakses halaman Konsultasi Gizi dan berkonsultasi dengan ahli gizi profesional.</p>
+            <div class="login-required-buttons">
+                <a href="login.html" class="btn-primary">Login Sekarang</a>
+                <a href="index.html" class="btn-secondary">Kembali ke Beranda</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="consultationContent">
+        <div class="consult-container">
+            
+            <div class="search-section" data-aos="fade-up" data-aos-duration="800">
+                <h1 style="font-size: 28px; font-weight: 800; margin-bottom: 10px;">Konsultasi dengan Ahli Gizi</h1>
+                <p style="opacity: 0.8; margin-bottom: 20px;">Dapatkan saran nutrisi personal dari tenaga profesional. Lampirkan data Cek Kesehatan Anda untuk konsultasi yang lebih efektif.</p>
+                
+                <div style="display: flex; gap: 10px; max-width: 600px; margin: 0 auto;">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Cari dokter atau topik konsultasi..." onkeyup="searchDoctors()" style="flex:1;">
+                    <button onclick="searchDoctors()" style="padding: 12px 25px; border-radius: 50px; border: none; background: var(--primary); color: white; font-weight: 700; cursor: pointer; transition: 0.3s;">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <div class="filter-group">
+                    <button class="filter-btn active" onclick="filterDoctors('all', this)">Semua</button>
+                    <button class="filter-btn" onclick="filterDoctors('klinik', this)">Ahli Gizi Klinik</button>
+                    <button class="filter-btn" onclick="filterDoctors('olahraga', this)">Nutrisionis Olahraga</button>
+                    <button class="filter-btn" onclick="filterDoctors('diet', this)">Spesialis Diet</button>
+                </div>
+            </div>
+
+            <div class="consult-tabs" data-aos="fade-up" data-aos-duration="600">
+                <button class="consult-tab active" onclick="switchTab('doctors', this)">Cari Dokter</button>
+                <button class="consult-tab" onclick="switchTab('schedule', this)">Jadwal</button>
+                <button class="consult-tab locked" onclick="switchTab('daily', this)" id="dailyTab">Input Harian <span class="premium-badge">PREMIUM</span></button>
+                <button class="consult-tab locked" onclick="switchTab('weekly', this)" id="weeklyTab">Rekap <span class="premium-badge">PREMIUM</span></button>
+            </div>
+
+            <div id="tabDoctors" class="tab-content active">
+                <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 5px;">Dokter Tersedia</h2>
+                <p style="opacity: 0.7; margin-bottom: 20px;">Pilih dokter dan konsultasikan kebutuhan nutrisi Anda.</p>
+
+                <div class="doctor-grid" id="doctorGrid">
+                    <div class="doctor-card" data-category="klinik" data-name="dr. Anisa Putri, Sp.GK" data-aos="fade-up" data-aos-delay="100" data-aos-duration="600">
+                        <div class="doctor-avatar" style="background: #6F943B;">AP</div>
+                        <div class="doctor-name">dr. Anisa Putri, Sp.GK</div>
+                        <div class="doctor-spec">Spesialis Gizi Klinik</div>
+                        <div style="display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 8px;">
+                            <span class="verification-badge">Terverifikasi STR</span>
+                            <span class="verification-badge">Terdaftar Kemenkes</span>
+                        </div>
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            4.9 (120+ Konsultasi)
+                        </div>
+                        <div class="doctor-status status-online">Online</div>
+                        <div class="doctor-price">Rp 30.000 / Konsultasi</div>
+                        <div style="font-size: 12px; color: #d9e8c5; margin-bottom: 10px; opacity: 0.8;">
+                            Konsultasi makanan mingguanmu dengan dokter untuk mencapai target nutrisimu
+                        </div>
+                        <button class="btn-consult" onclick="openBookingModal('dr. Anisa Putri, Sp.GK', 'Spesialis Gizi Klinik', 30000)">Konsultasi Sekarang</button>
+                    </div>
+
+                    <div class="doctor-card" data-category="olahraga" data-name="Siti Rahma, S.Gz, RD" data-aos="fade-up" data-aos-delay="200" data-aos-duration="600">
+                        <div class="doctor-avatar" style="background: #8E44AD;">SR</div>
+                        <div class="doctor-name">Siti Rahma, S.Gz, RD</div>
+                        <div class="doctor-spec">Nutrisionis Olahraga</div>
+                        <div style="display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 8px;">
+                            <span class="verification-badge">Terverifikasi STR</span>
+                            <span class="verification-badge">Terdaftar Kemenkes</span>
+                        </div>
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            4.8 (85+ Konsultasi)
+                        </div>
+                        <div class="doctor-status status-online">Online</div>
+                        <div class="doctor-price">Rp 30.000 / Konsultasi</div>
+                        <div style="font-size: 12px; color: #d9e8c5; margin-bottom: 10px; opacity: 0.8;">
+                            Konsultasi makanan mingguanmu dengan dokter untuk mencapai target nutrisimu
+                        </div>
+                        <button class="btn-consult" onclick="openBookingModal('Siti Rahma, S.Gz, RD', 'Nutrisionis Olahraga', 30000)">Konsultasi Sekarang</button>
+                    </div>
+
+                    <div class="doctor-card" data-category="diet" data-name="dr. Budi Santoso, Sp.GK" data-aos="fade-up" data-aos-delay="300" data-aos-duration="600">
+                        <div class="doctor-avatar" style="background: #2980B9;">BS</div>
+                        <div class="doctor-name">dr. Budi Santoso, Sp.GK</div>
+                        <div class="doctor-spec">Spesialis Diet Diabetes & Hipertensi</div>
+                        <div style="display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 8px;">
+                            <span class="verification-badge">Terverifikasi STR</span>
+                            <span class="verification-badge">Terdaftar Kemenkes</span>
+                        </div>
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            4.7 (65+ Konsultasi)
+                        </div>
+                        <div class="doctor-status status-online">Online</div>
+                        <div class="doctor-price">Rp 30.000 / Konsultasi</div>
+                        <div style="font-size: 12px; color: #d9e8c5; margin-bottom: 10px; opacity: 0.8;">
+                            Konsultasi makanan mingguanmu dengan dokter untuk mencapai target nutrisimu
+                        </div>
+                        <button class="btn-consult" onclick="openBookingModal('dr. Budi Santoso, Sp.GK', 'Spesialis Diet Diabetes & Hipertensi', 30000)">Konsultasi Sekarang</button>
+                    </div>
+
+                    <div class="doctor-card" data-category="klinik" data-name="dr. Citra Dewi, Sp.GK" data-aos="fade-up" data-aos-delay="400" data-aos-duration="600">
+                        <div class="doctor-avatar" style="background: #E67E22;">CD</div>
+                        <div class="doctor-name">dr. Citra Dewi, Sp.GK</div>
+                        <div class="doctor-spec">Spesialis Gizi Anak</div>
+                        <div style="display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 8px;">
+                            <span class="verification-badge">Terverifikasi STR</span>
+                            <span class="verification-badge">Terdaftar Kemenkes</span>
+                        </div>
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            5.0 (45+ Konsultasi)
+                        </div>
+                        <div class="doctor-status status-online">Online</div>
+                        <div class="doctor-price">Rp 25.000 / Konsultasi</div>
+                        <div style="font-size: 12px; color: #d9e8c5; margin-bottom: 10px; opacity: 0.8;">
+                            Konsultasi gizi khusus untuk anak & remaja dengan pendekatan yang menyenangkan
+                        </div>
+                        <button class="btn-consult" onclick="openBookingModal('dr. Citra Dewi, Sp.GK', 'Spesialis Gizi Anak', 25000)">Konsultasi Sekarang</button>
+                    </div>
+
+                    <div class="doctor-card" data-category="diet" data-name="dr. Fajar Ramadhan, Sp.GK" data-aos="fade-up" data-aos-delay="500" data-aos-duration="600">
+                        <div class="doctor-avatar" style="background: #2ECC71;">FR</div>
+                        <div class="doctor-name">dr. Fajar Ramadhan, Sp.GK</div>
+                        <div class="doctor-spec">Spesialis Diet & Metabolik</div>
+                        <div style="display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 8px;">
+                            <span class="verification-badge">Terverifikasi STR</span>
+                            <span class="verification-badge">Terdaftar Kemenkes</span>
+                        </div>
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            4.9 (55+ Konsultasi)
+                        </div>
+                        <div class="doctor-status status-online">Online</div>
+                        <div class="doctor-price">Rp 40.000 / Konsultasi</div>
+                        <div style="font-size: 12px; color: #d9e8c5; margin-bottom: 10px; opacity: 0.8;">
+                            Konsultasi diet khusus untuk gangguan metabolik & berat badan
+                        </div>
+                        <button class="btn-consult" onclick="openBookingModal('dr. Fajar Ramadhan, Sp.GK', 'Spesialis Diet & Metabolik', 40000)">Konsultasi Sekarang</button>
+                    </div>
+
+                    <div class="doctor-card" data-category="olahraga" data-name="dr. Rina Anggraeni, M.Gizi" data-aos="fade-up" data-aos-delay="600" data-aos-duration="600">
+                        <div class="doctor-avatar" style="background: #F1C40F;">RA</div>
+                        <div class="doctor-name">dr. Rina Anggraeni, M.Gizi</div>
+                        <div class="doctor-spec">Nutrisionis Olahraga</div>
+                        <div style="display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 8px;">
+                            <span class="verification-badge">Terverifikasi STR</span>
+                            <span class="verification-badge">Terdaftar Kemenkes</span>
+                        </div>
+                        <div class="doctor-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            5.0 (30+ Konsultasi)
+                        </div>
+                        <div class="doctor-status status-online">Online</div>
+                        <div class="doctor-price">Rp 35.000 / Konsultasi</div>
+                        <div style="font-size: 12px; color: #d9e8c5; margin-bottom: 10px; opacity: 0.8;">
+                            Konsultasi nutrisi untuk atlet & gaya hidup aktif agar performa optimal
+                        </div>
+                        <button class="btn-consult" onclick="openBookingModal('dr. Rina Anggraeni, M.Gizi', 'Nutrisionis Olahraga', 35000)">Konsultasi Sekarang</button>
+                    </div>
+                </div>
+                <p id="noDoctorResult" style="display:none; text-align:center; padding:30px; opacity:0.7;">Tidak ada dokter yang ditemukan</p>
+            </div>
+
+            <div id="tabSchedule" class="tab-content">
+                <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 5px;">Jadwal Konsultasi</h2>
+                <p style="opacity: 0.7; margin-bottom: 20px;">Riwayat dan jadwal konsultasi Anda dengan ahli gizi</p>
+                <div id="scheduleList">
+                    <p style="text-align:center; opacity:0.6; padding:30px;">Belum ada jadwal konsultasi. Booking sekarang!</p>
+                </div>
+            </div>
+
+            <div id="tabDaily" class="tab-content">
+                <div id="dailyContent"></div>
+            </div>
+
+            <div id="tabWeekly" class="tab-content">
+                <div id="weeklyContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="bookingModal" class="modal-overlay">
+        <div class="modal-content booking-modal">
+            <div class="modal-header">
+                <h3 style="font-size: 20px; font-weight: 700;">Booking Konsultasi</h3>
+                <button class="modal-close" onclick="closeBookingModal()">×</button>
+            </div>
+
+            <div id="step1">
+                <p style="opacity: 0.7; margin-bottom: 15px; font-size: 14px;">Pilih jadwal konsultasi dengan <span id="bookingDoctorName" style="color:var(--primary); font-weight:600;">Dokter</span></p>
+                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px;">Pilih Tanggal</label>
+                    <input type="date" id="consultDate" class="booking-input" min="" style="width:100%; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.05); color:white;">
+                </div>
+                <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px;">Pilih Waktu</label>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+                        <button class="time-slot-btn" onclick="selectTimeSlot(this, '09:00')">09:00</button>
+                        <button class="time-slot-btn" onclick="selectTimeSlot(this, '10:00')">10:00</button>
+                        <button class="time-slot-btn" onclick="selectTimeSlot(this, '11:00')">11:00</button>
+                        <button class="time-slot-btn" onclick="selectTimeSlot(this, '13:00')">13:00</button>
+                        <button class="time-slot-btn" onclick="selectTimeSlot(this, '14:00')">14:00</button>
+                        <button class="time-slot-btn" onclick="selectTimeSlot(this, '15:00')">15:00</button>
+                        <button class="time-slot-btn" onclick="selectTimeSlot(this, '16:00')">16:00</button>
+                        <button class="time-slot-btn" onclick="selectTimeSlot(this, '17:00')">17:00</button>
+                        <button class="time-slot-btn" onclick="selectTimeSlot(this, '18:00')">18:00</button>
+                    </div>
+                    <p id="timeError" style="color:#ff6b6b; font-size:12px; margin-top:8px; display:none;">Silakan pilih waktu terlebih dahulu</p>
+                </div>
+                <button class="btn-primary" style="width:100%;" onclick="goToStep2()">Lanjut ke Ringkasan</button>
+            </div>
+
+            <div id="step2" style="display:none;">
+                <h4 style="font-size:16px; font-weight:600; margin-bottom:15px;">Ringkasan Booking</h4>
+                <div style="background:rgba(255,255,255,0.05); border-radius:10px; padding:15px; margin-bottom:15px;">
+                    <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <span style="opacity:0.7;">Dokter</span>
+                        <span id="summaryDoctor" style="font-weight:600;">-</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <span style="opacity:0.7;">Spesialis</span>
+                        <span id="summarySpec" style="font-weight:600;">-</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <span style="opacity:0.7;">Tanggal</span>
+                        <span id="summaryDate" style="font-weight:600;">-</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <span style="opacity:0.7;">Waktu</span>
+                        <span id="summaryTime" style="font-weight:600;">-</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+                        <span style="opacity:0.7;">Durasi Sesi</span>
+                        <span style="font-weight:600;">30 Menit</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:6px 0; font-size:18px; font-weight:700; color:var(--primary);">
+                        <span>Biaya</span>
+                        <span id="summaryPrice">Rp 30.000</span>
+                    </div>
+                </div>
+                <div style="background:rgba(255,215,0,0.1); border:1px solid #FFD700; border-radius:10px; padding:12px; margin-bottom:15px;">
+                    <p style="font-size:13px; color:#FFD700;">
+                        <strong>Fitur Premium:</strong> Setelah pembayaran, Anda akan mendapatkan akses ke fitur <strong>Input Harian</strong> dan <strong>Rekap Mingguan</strong> yang dipantau langsung oleh dokter!
+                    </p>
+                </div>
+                <button class="btn-primary" style="width:100%; margin-bottom:10px;" onclick="goToStep3()">Lanjut ke Pembayaran</button>
+                <button class="btn-secondary" style="width:100%;" onclick="goToStep1()">Kembali</button>
+            </div>
+
+            <div id="step3" style="display:none;">
+                <h4 style="font-size:16px; font-weight:600; margin-bottom:15px;">Pilih Metode Pembayaran</h4>
+                <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:20px;">
+                    <button class="payment-method-btn" onclick="selectPaymentMethod(this, 'QRIS')">
+                        <i class="fas fa-qrcode" style="font-size:20px; width:30px;"></i>
+                        <span>QRIS</span>
+                    </button>
+                    <button class="payment-method-btn" onclick="selectPaymentMethod(this, 'Transfer Bank')">
+                        <i class="fas fa-university" style="font-size:20px; width:30px;"></i>
+                        <span>Transfer Bank (BRI)</span>
+                    </button>
+                    <button class="payment-method-btn" onclick="selectPaymentMethod(this, 'E-Wallet')">
+                        <i class="fas fa-wallet" style="font-size:20px; width:30px;"></i>
+                        <span>E-Wallet</span>
+                    </button>
+                </div>
+                <button class="btn-primary" style="width:100%; margin-bottom:10px;" onclick="goToStep4()">Generate Kode Pembayaran</button>
+                <button class="btn-secondary" style="width:100%;" onclick="goToStep2()">Kembali</button>
+            </div>
+
+            <div id="step4" style="display:none;">
+                <h4 style="font-size:16px; font-weight:600; margin-bottom:10px;">Kode Pembayaran</h4>
+                <p style="opacity:0.7; font-size:14px; margin-bottom:15px;">Bayar sebelum waktu habis untuk mengkonfirmasi booking</p>
+                <div id="qrisDisplay" style="display:none; background:rgba(255,255,255,0.05); border-radius:10px; padding:20px; text-align:center; margin-bottom:15px;">
+                    <div class="qr-code-display">
+                        <div class="qr-placeholder">📱</div>
+                        <div style="color:#333; font-size:11px; margin-top:5px; word-break:break-all; background:#f0f0f0; padding:8px; border-radius:4px; font-family:monospace;" id="qrisCodeDisplay">QR-JGT-XXXXXX</div>
+                        <div style="color:#333; font-size:10px; opacity:0.6; margin-top:5px;">Scan QR Code untuk membayar</div>
+                    </div>
+                    <p style="font-size:12px; opacity:0.6; margin-top:10px;">Scan menggunakan aplikasi mobile banking atau e-wallet</p>
+                </div>
+                <div id="bankDisplay" style="display:none; background:rgba(255,255,255,0.05); border-radius:10px; padding:20px; text-align:center; margin-bottom:15px;">
+                    <div style="background:rgba(68,161,164,0.15); border:2px solid var(--primary); border-radius:10px; padding:20px;">
+                        <div style="font-size:28px; font-weight:800; letter-spacing:3px; color:var(--primary);" id="paymentCode">JGT-XXXXXX</div>
+                        <div style="font-size:12px; opacity:0.6; margin-top:5px;">Kode unik Anda</div>
+                    </div>
+                    <div style="margin-top:10px; padding:10px; background:rgba(255,255,255,0.05); border-radius:8px;">
+                        <p style="font-size:14px;">Bank BRI</p>
+                        <p style="font-size:12px; opacity:0.7;">No. Rekening: 1234-5678-9012-3456</p>
+                        <p style="font-size:12px; opacity:0.7;">a.n. JagaTubuh Sehat</p>
+                        <p style="font-size:12px; opacity:0.7; margin-top:5px;">Kode: <strong id="bankCodeDisplay">JGT-XXXXXX</strong></p>
+                    </div>
+                </div>
+                <div id="ewalletDisplay" style="display:none; background:rgba(255,255,255,0.05); border-radius:10px; padding:20px; text-align:center; margin-bottom:15px;">
+                    <div style="background:rgba(68,161,164,0.15); border:2px solid var(--primary); border-radius:10px; padding:20px;">
+                        <div style="font-size:28px; font-weight:800; letter-spacing:3px; color:var(--primary);" id="paymentCodeEwallet">JGT-XXXXXX</div>
+                        <div style="font-size:12px; opacity:0.6; margin-top:5px;">Kode unik Anda</div>
+                    </div>
+                    <p style="font-size:12px; opacity:0.6; margin-top:10px;">Gunakan kode untuk pembayaran via e-wallet</p>
+                </div>
+                <div style="background:rgba(255,255,255,0.05); border-radius:10px; padding:15px; margin-bottom:15px; text-align:center;">
+                    <div style="font-size:14px; opacity:0.7;">Sisa waktu pembayaran</div>
+                    <div id="countdownTimer" style="font-size:32px; font-weight:700; color:#FFD700; margin-top:5px;">15:00</div>
+                </div>
+                <button class="btn-primary" style="width:100%; margin-bottom:10px; background:#4CAF50; border-color:#4CAF50;" onclick="simulatePayment()">Saya sudah bayar</button>
+                <button class="btn-secondary" style="width:100%;" onclick="goToStep3()">Kembali</button>
+            </div>
+
+            <div id="step5" style="display:none;">
+                <div style="text-align:center; padding:20px 0;">
+                    <div style="font-size:50px; margin-bottom:15px;">⏳</div>
+                    <h4 style="font-size:20px; font-weight:700; margin-bottom:5px;" id="paymentStatus">Menunggu pembayaran...</h4>
+                    <p style="opacity:0.7; font-size:14px;" id="paymentSubStatus">Silakan selesaikan pembayaran Anda</p>
+                </div>
+                <button class="btn-primary" style="width:100%; margin-bottom:10px; background:#4CAF50; border-color:#4CAF50;" onclick="confirmPayment()">Konfirmasi Pembayaran</button>
+                <button class="btn-secondary" style="width:100%;" onclick="goToStep4()">Kembali</button>
+            </div>
+
+            <div id="step6" style="display:none;">
+                <div style="text-align:center; padding:10px 0;">
+                    <div style="font-size:60px; margin-bottom:15px;">🎉</div>
+                    <h4 style="font-size:22px; font-weight:700; color:#4CAF50; margin-bottom:5px;">Booking Terkonfirmasi!</h4>
+                    <p style="opacity:0.8; font-size:14px;">Konsultasi Anda telah berhasil dijadwalkan</p>
+                </div>
+                <div style="background:rgba(255,255,255,0.05); border-radius:10px; padding:15px; margin:15px 0;">
+                    <h5 style="font-size:14px; font-weight:600; margin-bottom:10px;">E-Ticket / Invoice Digital</h5>
+                    <div style="display:flex; justify-content:space-between; padding:4px 0; font-size:13px;">
+                        <span style="opacity:0.7;">Kode Booking</span>
+                        <span id="ticketCode" style="font-weight:600; color:var(--primary);">-</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:4px 0; font-size:13px;">
+                        <span style="opacity:0.7;">Dokter</span>
+                        <span id="ticketDoctor" style="font-weight:600;">-</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:4px 0; font-size:13px;">
+                        <span style="opacity:0.7;">Jadwal</span>
+                        <span id="ticketSchedule" style="font-weight:600;">-</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:4px 0; font-size:13px;">
+                        <span style="opacity:0.7;">Status</span>
+                        <span style="font-weight:600; color:#4CAF50;">Lunas</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; padding:4px 0; font-size:13px; border-top:1px solid rgba(255,255,255,0.1); margin-top:8px; padding-top:8px;">
+                        <span style="opacity:0.7;">Fitur Premium</span>
+                        <span style="font-weight:600; color:#FFD700;">Input Harian & Rekap Mingguan</span>
+                    </div>
+                </div>
+                <div style="background:rgba(255,215,0,0.1); border:1px solid #FFD700; border-radius:10px; padding:12px; margin-bottom:15px;">
+                    <p style="font-size:13px; color:#FFD700;">
+                        Sekarang Anda bisa mengakses <strong>Input Harian</strong> dan <strong>Rekap Mingguan</strong> yang akan dipantau langsung oleh dokter!
+                    </p>
+                </div>
+                <button class="btn-primary" style="width:100%;" onclick="closeBookingModalAndSave()">Mulai Konsultasi</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="consultModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 style="font-size: 20px; font-weight: 700;">Konsultasi dengan Dokter</h3>
+                <button class="modal-close" onclick="closeConsultModal()">×</button>
+            </div>
+            <p style="opacity: 0.7; margin-bottom: 15px; font-size: 14px;">Terhubung dengan <span id="consultDocName" style="color:var(--primary); font-weight:600;">Dokter</span></p>
+            <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 10px; margin-bottom: 15px;">
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                    <input type="checkbox" id="attachDataCheck" checked>
+                    <span style="font-size: 14px;">Lampirkan Hasil Cek Kesehatan, Target & Rekap Mingguan</span>
+                </label>
+            </div>
+            <div class="chat-simulator" id="chatBox">
+                <div class="msg-system">
+                    <span>Sistem JagaTubuh: Berhasil menghubungkan dengan <strong id="chatDocName">Dokter</strong>.</span>
+                </div>
+                <div class="msg-system" id="systemHealthData">
+                    <span>Memuat data kesehatan Anda...</span>
+                </div>
+                <div class="msg-system" id="targetDataDisplay">
+                    <span>Memuat target kesehatan...</span>
+                </div>
+                <div class="msg-system" id="weeklyReportData">
+                    <span>Memuat rekap gizi mingguan...</span>
+                </div>
+            </div>
+            <div class="modal-input-group">
+                <input type="text" id="chatInput" placeholder="Tulis pesan ke dokter...">
+                <button onclick="sendChatMessage()">Kirim</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 JagaTubuh. Teman digital untuk gaya hidup sehat.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        function toggleSidebar() {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.getElementById('hamburgerIcon');
+            
+            menu.classList.toggle('open');
+            
+            if (menu.classList.contains('open')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        }
+
+        function checkLogin() {
+            const user = JSON.parse(localStorage.getItem('jagaTubuhCurrentUser'));
+            const overlay = document.getElementById('loginRequiredOverlay');
+            const content = document.getElementById('consultationContent');
+
+            if (!user) {
+                overlay.classList.add('active');
+                if (content) content.style.display = 'none';
+                return false;
+            } else {
+                overlay.classList.remove('active');
+                if (content) content.style.display = 'block';
+                return true;
+            }
+        }
+
+        function updateNavbar() {
+            let user = JSON.parse(localStorage.getItem('jagaTubuhCurrentUser'));
+            let userNameDisplay = document.getElementById('userNameDisplay');
+            let loginBtn = document.getElementById('loginBtn');
+            let logoutBtn = document.getElementById('logoutBtn');
+
+            if (user) {
+                if (userNameDisplay) userNameDisplay.innerText = user.name || 'User';
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (logoutBtn) logoutBtn.style.display = 'inline-block';
+                
+                const menuLoginBtn = document.getElementById('menuLoginBtn');
+                if(menuLoginBtn) {
+                    menuLoginBtn.innerText = 'Logout';
+                    menuLoginBtn.style.color = '#ff6b6b';
+                    menuLoginBtn.onclick = function(e) { e.preventDefault(); logoutUser(); };
+                }
+
+                const desktopLoginBtn = document.getElementById('desktopLoginBtn');
+                if(desktopLoginBtn) {
+                    desktopLoginBtn.innerText = 'Logout';
+                    desktopLoginBtn.style.color = '#ff6b6b';
+                    desktopLoginBtn.onclick = function(e) { e.preventDefault(); logoutUser(); };
+                }
+            } else {
+                if (userNameDisplay) userNameDisplay.innerText = 'Tamu';
+                if (loginBtn) loginBtn.style.display = 'inline-block';
+                if (logoutBtn) logoutBtn.style.display = 'none';
+
+                const menuLoginBtn = document.getElementById('menuLoginBtn');
+                if(menuLoginBtn) {
+                    menuLoginBtn.innerText = 'Login';
+                    menuLoginBtn.style.color = '#6F943B';
+                    menuLoginBtn.href = 'login.html';
+                    menuLoginBtn.onclick = null;
+                }
+
+                const desktopLoginBtn = document.getElementById('desktopLoginBtn');
+                if(desktopLoginBtn) {
+                    desktopLoginBtn.innerText = 'Login';
+                    desktopLoginBtn.style.color = '#6F943B';
+                    desktopLoginBtn.href = 'login.html';
+                    desktopLoginBtn.onclick = null;
+                }
+            }
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('jagaTubuhCurrentUser');
+            window.location.href = 'login.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateNavbar();
+            checkLogin();
+        });
+    </script>
+    <script src="js/consultation.js"></script>
+</body>
+</html>

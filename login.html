@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - JagaTubuh</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="login-page">
+
+    <div class="loader-overlay" id="loaderOverlay">
+        <div class="loader-logo">JAGA <span>TUBUH</span></div>
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Memuat</div>
+        <div class="loader-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <a href="index.html" class="btn-back-top">
+        <i class="fas fa-arrow-left"></i> Kembali
+    </a>
+
+    <div class="login-card" data-aos="fade-up" data-aos-duration="800">
+
+        <div class="login-logo">
+            <img src="LOGO.png" alt="Logo JagaTubuh" onerror="this.style.display='none'">
+            <h2>JAGA <span>TUBUH</span></h2>
+        </div>
+
+        <h2 id="formTitle">Selamat <span>Datang</span></h2>
+        <p id="formDesc">Masuk ke akun JagaTubuh Anda</p>
+
+        <form id="authForm">
+
+            <div class="login-input-group" id="nameGroup" style="display: none;">
+                <label>Nama Lengkap</label>
+                <div class="input-wrapper">
+                    <input type="text" id="regName" placeholder="Masukkan nama lengkap">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+
+            <div class="login-input-group" data-aos="fade-up" data-aos-delay="100">
+                <label>Email</label>
+                <div class="input-wrapper">
+                    <input type="email" id="authEmail" placeholder="contoh@email.com" required>
+                    <i class="fas fa-envelope"></i>
+                </div>
+            </div>
+
+            <div class="login-input-group" data-aos="fade-up" data-aos-delay="200">
+                <label>Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="authPassword" placeholder="Minimal 6 karakter" required>
+                    <i class="fas fa-lock"></i>
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">
+                        <i class="fas fa-eye" id="togglePasswordIcon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="login-msg" id="authMsg"></div>
+
+            <button type="submit" class="login-btn" id="submitBtn">
+                <i class="fas fa-sign-in-alt" id="submitIcon"></i>
+                <span id="submitText">Masuk</span>
+            </button>
+        </form>
+
+        <div class="toggle-mode" id="toggleText">
+            Belum punya akun? <a id="toggleBtn">Daftar Sekarang</a>
+        </div>
+
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        function cleanupDummyData() {
+            const user = JSON.parse(localStorage.getItem('jagaTubuhCurrentUser'));
+            const bookings = JSON.parse(localStorage.getItem('jagaTubuhBookings') || '[]');
+            
+            if (!user && bookings.length > 0) {
+                localStorage.removeItem('jagaTubuhBookings');
+                localStorage.removeItem('jagaTubuhDailyMenus');
+                localStorage.removeItem('jagaTubuhWeeklyReport');
+                localStorage.removeItem('jagaTubuhHealthTarget');
+                localStorage.removeItem('jagaTubuhResult');
+                localStorage.removeItem('jagaTubuhSupportCounts');
+                localStorage.removeItem('jagaTubuhChallengeJoined');
+                localStorage.removeItem('jagaTubuhChallengeCount');
+                localStorage.removeItem('jagaTubuhCommunityPosts');
+                localStorage.removeItem('jagaTubuhPrevScore');
+                console.log('✅ Data dummy telah dibersihkan');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            cleanupDummyData();
+
+            setTimeout(function() {
+                const loader = document.getElementById('loaderOverlay');
+                if (loader) {
+                    loader.classList.add('hidden');
+                    setTimeout(function() {
+                        loader.style.display = 'none';
+                    }, 700);
+                }
+            }, 1200);
+        });
+
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('authPassword');
+            const icon = document.getElementById('togglePasswordIcon');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        let isLoginMode = true;
+
+        const formTitle = document.getElementById('formTitle');
+        const formDesc = document.getElementById('formDesc');
+        const nameGroup = document.getElementById('nameGroup');
+        const submitBtn = document.getElementById('submitBtn');
+        const submitText = document.getElementById('submitText');
+        const submitIcon = document.getElementById('submitIcon');
+        const toggleText = document.getElementById('toggleText');
+        const authMsg = document.getElementById('authMsg');
+
+        document.getElementById('toggleBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            isLoginMode = !isLoginMode;
+
+            authMsg.className = 'login-msg';
+            authMsg.style.display = 'none';
+            authMsg.innerText = '';
+
+            if (isLoginMode) {
+                formTitle.innerHTML = 'Selamat <span>Datang</span>';
+                formDesc.innerText = 'Masuk ke akun JagaTubuh Anda';
+                nameGroup.style.display = 'none';
+                submitText.innerText = 'Masuk';
+                submitIcon.className = 'fas fa-sign-in-alt';
+                toggleText.innerHTML = 'Belum punya akun? <a id="toggleBtn">Daftar Sekarang</a>';
+                document.getElementById('regName').required = false;
+                document.getElementById('authEmail').required = true;
+                document.getElementById('authPassword').required = true;
+                document.getElementById('authEmail').placeholder = 'contoh@email.com';
+                document.getElementById('authPassword').placeholder = 'Minimal 6 karakter';
+            } else {
+                formTitle.innerHTML = 'Buat <span>Akun</span>';
+                formDesc.innerText = 'Daftar sekarang untuk memulai perjalanan sehat Anda';
+                nameGroup.style.display = 'block';
+                submitText.innerText = 'Daftar';
+                submitIcon.className = 'fas fa-user-plus';
+                toggleText.innerHTML = 'Sudah punya akun? <a id="toggleBtn">Masuk</a>';
+                document.getElementById('regName').required = true;
+                document.getElementById('authEmail').required = true;
+                document.getElementById('authPassword').required = true;
+                document.getElementById('authEmail').placeholder = 'contoh@email.com';
+                document.getElementById('authPassword').placeholder = 'Minimal 6 karakter';
+            }
+
+            document.getElementById('toggleBtn').addEventListener('click', arguments.callee);
+        });
+
+        document.getElementById('authForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value.trim();
+            const fullName = document.getElementById('regName').value.trim();
+
+            authMsg.className = 'login-msg';
+            authMsg.style.display = 'none';
+            authMsg.innerText = '';
+
+            if (isLoginMode) {
+                if (!email || !password) {
+                    authMsg.className = 'login-msg error';
+                    authMsg.innerText = '⚠️ Email dan password harus diisi!';
+                    authMsg.style.display = 'block';
+                    return;
+                }
+
+                const result = loginUser(email, password);
+
+                if (result.success) {
+                    authMsg.className = 'login-msg success';
+                    authMsg.innerText = '✅ Selamat datang, ' + result.name + '! Mengalihkan...';
+                    authMsg.style.display = 'block';
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
+                } else {
+                    authMsg.className = 'login-msg error';
+                    authMsg.innerText = '❌ ' + result.message;
+                    authMsg.style.display = 'block';
+                }
+            } else {
+                if (!fullName || !email || !password) {
+                    authMsg.className = 'login-msg error';
+                    authMsg.innerText = '⚠️ Semua field harus diisi!';
+                    authMsg.style.display = 'block';
+                    return;
+                }
+
+                if (password.length < 6) {
+                    authMsg.className = 'login-msg error';
+                    authMsg.innerText = '⚠️ Password minimal 6 karakter!';
+                    authMsg.style.display = 'block';
+                    return;
+                }
+
+                const result = registerUser(fullName, email, password);
+
+                if (result.success) {
+                    const loginResult = loginUser(email, password);
+                    if (loginResult.success) {
+                        authMsg.className = 'login-msg success';
+                        authMsg.innerText = '✅ Pendaftaran berhasil! Selamat datang, ' + fullName + '!';
+                        authMsg.style.display = 'block';
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 1500);
+                    } else {
+                        authMsg.className = 'login-msg info';
+                        authMsg.innerText = '✅ Akun berhasil dibuat! Silakan login.';
+                        authMsg.style.display = 'block';
+                    }
+                } else {
+                    authMsg.className = 'login-msg error';
+                    authMsg.innerText = '❌ ' + result.message;
+                    authMsg.style.display = 'block';
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

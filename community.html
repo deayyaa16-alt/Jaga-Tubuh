@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Komunitas Sehat - JagaTubuh</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/community.css" />
+
+    <style>
+    
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #1f2e3a;
+            padding-top: 75px;
+        }
+
+        .custom-header-revisi {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* KIRI: Logo, KANAN: Menu Desktop */
+            background-color: #264653;
+            padding: 0 20px;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            z-index: 999;
+            border-bottom: 3px solid #3a6b7a; 
+        }
+
+        /* BAGIAN KIRI HEADER */
+        .header-left-area {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Tombol Hamburger (Hanya muncul di Mobile/Tablet) */
+        .hamburger-left-btn {
+            background: none;
+            border: none;
+            padding: 0 15px 0 0;
+            display: none; /* DISEMBUNYIKAN DI DESKTOP */
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #ffffff;
+            font-size: 28px;
+            transition: opacity 0.3s;
+        }
+        .hamburger-left-btn:hover { opacity: 0.8; }
+
+        /* Logo + Teks JAGA TUBUH */
+        .header-brand-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .header-brand-area img {
+            height: 34px;
+            width: auto;
+            display: block;
+        }
+        .header-brand-area span {
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .nav-links-desktop {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links-desktop a {
+            color: #e0fbfc;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .nav-links-desktop a:hover {
+            color: #ffffff;
+            opacity: 0.8;
+        }
+        .nav-links-desktop a.active {
+            color: #4CAF50;
+        }
+
+        .mobile-sidebar-menu {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background-color: #1d3340;
+            display: none;
+            flex-direction: column;
+            padding: 20px 0;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+            z-index: 998;
+            border-bottom: 3px solid #3a6b7a;
+        }
+        
+        .mobile-sidebar-menu.open {
+            display: flex;
+        }
+
+        .mobile-sidebar-menu a {
+            color: #e0fbfc;
+            text-decoration: none;
+            padding: 15px 25px;
+            font-size: 18px;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background 0.3s;
+        }
+        .mobile-sidebar-menu a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        .mobile-sidebar-menu a.active {
+            color: #4CAF50;
+        }
+
+    
+        @media (max-width: 992px) {
+            .custom-header-revisi { height: 60px; padding: 0 10px; }
+            body { padding-top: 65px; }
+
+        
+            .nav-links-desktop { display: none !important; }
+
+
+            .hamburger-left-btn { display: flex !important; font-size: 24px; padding: 0 12px 0 0; }
+            
+            .header-brand-area span { font-size: 18px; }
+            .header-brand-area img { height: 28px; }
+            .mobile-sidebar-menu { top: 60px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="custom-header-revisi">
+        
+        <div class="header-left-area">
+    
+            <button class="hamburger-left-btn" onclick="toggleSidebar()">
+                <i class="fas fa-bars" id="hamburgerIcon"></i>
+            </button>
+
+            <div class="header-brand-area">
+                <img src="LOGO.png" alt="Logo JagaTubuh" onerror="this.src='https://via.placeholder.com/40/264653/ffffff?text=+'" />
+                <span>JAGA TUBUH</span>
+            </div>
+        </div>
+
+
+        <ul class="nav-links-desktop">
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="health-check.html">Cek Kesehatan</a></li>
+            <li><a href="konsultasi.html">Konsultasi Gizi</a></li>
+            <li><a href="community.html" class="active">Komunitas</a></li>
+            <li><a href="login.html" id="desktopLoginBtn" style="color: #6F943B; font-weight: 700;">Login</a></li>
+        </ul>
+
+    </header>
+
+
+    <div class="mobile-sidebar-menu" id="mobileMenu">
+        <a href="index.html">Beranda</a>
+        <a href="health-check.html">Cek Kesehatan</a>
+        <a href="konsultasi.html">Konsultasi Gizi</a>
+        <a href="community.html" class="active">Komunitas</a>
+        <a href="login.html" id="menuLoginBtn" style="color: #6F943B;">Login</a>
+    </div>
+
+    <div class="loader-overlay" id="loaderOverlay">
+        <div class="loader-logo">JAGA <span>TUBUH</span></div>
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Memuat</div>
+        <div class="loader-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <div class="login-required-overlay" id="loginRequiredOverlay">
+        <div class="login-required-card">
+            <div class="login-required-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h2>Akses Diperlukan</h2>
+            <p>Silakan login terlebih dahulu untuk mengakses halaman Komunitas dan bergabung dengan grup diskusi.</p>
+            <div class="login-required-buttons">
+                <a href="login.html" class="btn-primary">Login Sekarang</a>
+                <a href="index.html" class="btn-secondary">Kembali ke Beranda</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="communityContent">
+
+
+        <section class="community-hero" data-aos="fade-up" data-aos-duration="800">
+            <div class="community-hero-content">
+                <h1>Komunitas <span>Sehat</span></h1>
+                <p>Bergabunglah dengan 10.000+ member yang sudah berhasil menjaga kesehatannya bersama JagaTubuh</p>
+                <div class="demo-badge">
+                    <i class="fas fa-info-circle"></i> Data Demo — menampilkan simulasi fitur komunitas
+                </div>
+            </div>
+        </section>
+
+        <div class="groups-section">
+            <div class="groups-header">
+                <div class="groups-title">
+                    <h2><i class="fas fa-users" style="color:var(--primary);"></i> Grup Komunitas</h2>
+                    <p>Temukan grup yang sesuai dengan tujuan kesehatanmu</p>
+                </div>
+                <div class="groups-recommendation-tag">
+                    <i class="fas fa-star" style="color:#FFD700;"></i> Rekomendasi berdasarkan targetmu
+                </div>
+            </div>
+
+            <div class="groups-grid" id="groupsGrid">
+                
+            </div>
+        </div>
+
+        <div class="community-search-section" data-aos="fade-up" data-aos-duration="700">
+            <div class="community-search-wrapper">
+                <input type="text" id="searchMember" placeholder="Cari anggota komunitas..." oninput="filterMembers()">
+                <button onclick="filterMembers()"><i class="fas fa-search"></i> Cari</button>
+            </div>
+            <div class="filter-pills">
+                <button class="filter-pill active" data-filter="all" onclick="filterPill('all', this)">Semua</button>
+                <button class="filter-pill" data-filter="premium" onclick="filterPill('premium', this)">⭐ Premium</button>
+                <button class="filter-pill" data-filter="aktif" onclick="filterPill('aktif', this)">🟢 Aktif</button>
+                <button class="filter-pill" data-filter="diet" onclick="filterPill('diet', this)">Program Turun BB</button>
+                <button class="filter-pill" data-filter="protein" onclick="filterPill('protein', this)">Diet Protein</button>
+            </div>
+        </div>
+
+        <div class="community-container">
+            <div class="community-grid" id="memberGrid">
+
+            </div>
+        </div>
+
+        <div class="forum-section" data-aos="fade-up" data-aos-duration="700">
+            <h3>💬 Diskusi <span>Komunitas</span></h3>
+            <div class="forum-input-wrapper">
+                <input type="text" id="postInput" placeholder="Bagikan cerita/menu sehatmu..." onkeypress="if(event.key==='Enter') createPost()">
+                <button onclick="createPost()"><i class="fas fa-paper-plane"></i> Kirim</button>
+            </div>
+            <div class="feed-container" id="feedContainer">
+            </div>
+        </div>
+
+        <section class="community-cta" data-aos="fade-up" data-aos-duration="800">
+            <div class="cta-content">
+                <h2>Bergabunglah dengan Komunitas</h2>
+                <p>Dapatkan dukungan dari sesama pejuang kesehatan dan akses fitur eksklusif</p>
+                <button class="btn-primary" onclick="handleJoinCommunity()">
+                    <i class="fas fa-users"></i> Gabung Sekarang
+                </button>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="modal-overlay" id="groupModal">
+        <div class="modal-content group-modal">
+            <div class="modal-header">
+                <h3 id="groupModalTitle"><i class="fas fa-comments" style="color:var(--primary);"></i> Ruang Diskusi</h3>
+                <button class="modal-close" onclick="closeGroupModal()">×</button>
+            </div>
+            
+            <div id="groupInfo" style="background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:10px; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:14px;"><strong id="groupNameDisplay">Nama Grup</strong> · <span id="groupMemberCount">0</span> anggota</span>
+                <span style="font-size:11px; color:rgba(255,255,255,0.4);">✅ Tergabung</span>
+            </div>
+
+            <div class="group-chat-box" id="groupChatBox">
+            </div>
+
+            <div class="group-chat-input">
+                <input type="text" id="groupChatInput" placeholder="Tulis pesan ke grup..." onkeypress="if(event.key==='Enter') sendGroupMessage()">
+                <button onclick="sendGroupMessage()"><i class="fas fa-paper-plane"></i> Kirim</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-content profile-modal">
+            <div class="modal-header">
+                <h3 id="profileModalName" style="font-size: 20px; font-weight: 700;">Profil Member</h3>
+                <button class="modal-close" onclick="closeProfileModal()">×</button>
+            </div>
+            <div style="text-align:center; margin-bottom:20px;">
+                <div class="profile-avatar" id="profileAvatar" style="width:80px; height:80px; border-radius:50%; margin:0 auto 15px; display:flex; align-items:center; justify-content:center; font-size:32px; font-weight:700; color:white;">AD</div>
+                <h4 id="profileName" style="font-size:18px; font-weight:700;">Andi Dharma</h4>
+                <p id="profileSince" style="font-size:13px; opacity:0.6;">Member sejak 2025</p>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:20px;">
+                <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:12px; text-align:center;">
+                    <div style="font-size:22px; font-weight:700; color:var(--primary);" id="profileScore">85</div>
+                    <div style="font-size:11px; opacity:0.6;">Health Score</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:12px; text-align:center;">
+                    <div style="font-size:22px; font-weight:700; color:var(--primary);" id="profileTarget">65 kg</div>
+                    <div style="font-size:11px; opacity:0.6;">Target BB</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:12px; text-align:center;">
+                    <div style="font-size:22px; font-weight:700; color:var(--primary);" id="profileStreak">7 hari</div>
+                    <div style="font-size:11px; opacity:0.6;">Streak</div>
+                </div>
+            </div>
+            <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:12px; margin-bottom:15px;">
+                <p style="font-size:13px; opacity:0.7; margin:0;" id="profileBio">"JagaTubuh membantu saya menurunkan 5kg dalam 2 bulan."</p>
+            </div>
+            <button class="btn-primary" style="width:100%;" onclick="closeProfileModal()">Tutup</button>
+        </div>
+    </div>
+
+ 
+    <div id="toast" class="toast-notification"></div>
+    <footer>
+        <p>&copy; 2026 JagaTubuh. Teman digital untuk gaya hidup sehat.</p>
+    </footer>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/community.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        function toggleSidebar() {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.getElementById('hamburgerIcon');
+            
+            menu.classList.toggle('open');
+            if (menu.classList.contains('open')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('loaderOverlay');
+                if (loader) {
+                    loader.classList.add('hidden');
+                    setTimeout(function() {
+                        loader.style.display = 'none';
+                    }, 700);
+                }
+            }, 1200);
+
+            const isLoggedIn = checkLogin();
+            if (isLoggedIn) {
+                renderMembers();
+                renderFeed();
+                updateChallengeStatus();
+                renderGroups();
+            }
+            updateNavbar();
+        });
+
+        function checkLogin() {
+            const user = JSON.parse(localStorage.getItem('jagaTubuhCurrentUser'));
+            const overlay = document.getElementById('loginRequiredOverlay');
+            const content = document.getElementById('communityContent');
+
+            if (!user) {
+                overlay.classList.add('active');
+                if (content) content.style.display = 'none';
+                return false;
+            } else {
+                overlay.classList.remove('active');
+                if (content) content.style.display = 'block';
+                return true;
+            }
+        }
+
+        function updateNavbar() {
+            let user = JSON.parse(localStorage.getItem('jagaTubuhCurrentUser'));
+            let userNameDisplay = document.getElementById('userNameDisplay');
+            let loginBtn = document.getElementById('loginBtn');
+            let logoutBtn = document.getElementById('logoutBtn');
+
+            if (user) {
+                if (userNameDisplay) userNameDisplay.textContent = user.name || 'User';
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (logoutBtn) logoutBtn.style.display = 'inline-block';
+                
+                const menuLoginBtn = document.getElementById('menuLoginBtn');
+                if(menuLoginBtn) {
+                    menuLoginBtn.innerText = 'Logout';
+                    menuLoginBtn.style.color = '#ff6b6b';
+                    menuLoginBtn.onclick = function(e) { e.preventDefault(); logoutUser(); };
+                }
+
+                const desktopLoginBtn = document.getElementById('desktopLoginBtn');
+                if(desktopLoginBtn) {
+                    desktopLoginBtn.innerText = 'Logout';
+                    desktopLoginBtn.style.color = '#ff6b6b';
+                    desktopLoginBtn.onclick = function(e) { e.preventDefault(); logoutUser(); };
+                }
+            } else {
+                if (userNameDisplay) userNameDisplay.textContent = 'Tamu';
+                if (loginBtn) loginBtn.style.display = 'inline-block';
+                if (logoutBtn) logoutBtn.style.display = 'none';
+
+                const menuLoginBtn = document.getElementById('menuLoginBtn');
+                if(menuLoginBtn) {
+                    menuLoginBtn.innerText = 'Login';
+                    menuLoginBtn.style.color = '#6F943B';
+                    menuLoginBtn.href = 'login.html';
+                    menuLoginBtn.onclick = null;
+                }
+
+                const desktopLoginBtn = document.getElementById('desktopLoginBtn');
+                if(desktopLoginBtn) {
+                    desktopLoginBtn.innerText = 'Login';
+                    desktopLoginBtn.style.color = '#6F943B';
+                    desktopLoginBtn.href = 'login.html';
+                    desktopLoginBtn.onclick = null;
+                }
+            }
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('jagaTubuhCurrentUser');
+            window.location.href = 'login.html';
+        }
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast-notification show ' + type;
+            setTimeout(() => {
+                toast.className = 'toast-notification';
+            }, 3000);
+        }
+
+        function handleJoinCommunity() {
+            const user = JSON.parse(localStorage.getItem('jagaTubuhCurrentUser'));
+            
+            if (!user) {
+                showToast('⚠️ Silakan login terlebih dahulu untuk bergabung dengan komunitas!', 'error');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+                return;
+            }
+            
+            const joinedGroups = JSON.parse(localStorage.getItem('jagaTubuhJoinedGroups')) || [];
+            
+            if (joinedGroups.length > 0) {
+                openGroupChat(joinedGroups[0]);
+            } else {
+                const groupsSection = document.querySelector('.groups-section');
+                if (groupsSection) {
+                    groupsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    showToast('💡 Pilih grup yang ingin kamu ikuti!', 'info');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

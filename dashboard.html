@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - JagaTubuh</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+        
+        .dashboard-page {
+            background: var(--bg-dark);
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        .dash-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 40px;
+        }
+
+        .back-button-wrapper {
+            margin-bottom: 20px;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.08);
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.15);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background: rgba(255,255,255,0.18);
+            transform: translateX(-4px);
+            border-color: var(--primary);
+            color: white !important;
+        }
+
+        .dash-greeting-banner {
+            background: var(--nav-color);
+            border-radius: 25px;
+            padding: 35px 40px;
+            margin-bottom: 30px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .dash-greeting-banner .greeting-text h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .dash-greeting-banner .greeting-text h1 span {
+            color: var(--primary);
+        }
+
+        .dash-greeting-banner .greeting-text p {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .dash-greeting-banner .greeting-badge {
+            background: rgba(68, 161, 164, 0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(68, 161, 164, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dash-greeting-banner .greeting-badge i {
+            color: #FFD700;
+            font-size: 18px;
+        }
+
+        .dash-greeting-banner .greeting-badge span {
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--nav-color);
+            border-radius: 20px;
+            padding: 25px 20px;
+            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 30px rgba(68, 161, 164, 0.15);
+        }
+
+        .stat-card .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(68, 161, 164, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 22px;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover .stat-icon {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .stat-card .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 2px;
+        }
+
+        .stat-card .stat-label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.6);
+            font-weight: 500;
+        }
+
+        .stat-card .stat-change {
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 12px;
+        }
+
+        .stat-card .stat-change.positive {
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.15);
+        }
+
+        .stat-card .stat-change.negative {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.15);
+        }
+
+        .stat-card .stat-change.neutral {
+            color: #FFD700;
+            background: rgba(255, 215, 0, 0.15);
+        }
+
+        .profile-section {
+            background: var(--nav-color);
+            border-radius: 25px;
+            padding: 35px 40px;
+            margin-bottom: 30px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        .profile-section .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .profile-section .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            box-shadow: 0 4px 20px rgba(68, 161, 164, 0.3);
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .profile-section .profile-avatar .avatar-edit-btn {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            background: var(--cta-accent);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--bg-dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid var(--nav-color);
+        }
+
+        .profile-section .profile-avatar .avatar-edit-btn:hover {
+            transform: scale(1.1);
+            background: #FFAA33;
+        }
+
+        .profile-section .profile-info h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .profile-section .profile-info h3 .edit-name-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.5);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .profile-section .profile-info h3 .edit-name-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .profile-section .profile-info p {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .profile-section .profile-info .profile-badge {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.15);
+            color: #FFD700;
+            padding: 2px 14px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .profile-section .profile-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .profile-detail-item {
+            background: rgba(255,255,255,0.04);
+            padding: 15px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .profile-detail-item:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        .profile-detail-item .detail-label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .profile-detail-item .detail-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .profile-detail-item .detail-value i {
+            color: var(--primary);
+            margin-right: 6px;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .quick-action-card {
+            background: var(--nav-color);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.06);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: white !important;
+        }
+
+        .quick-action-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 8px 30px rgba(68, 161, 164, 0.2);
+        }
+
+        .quick-action-card .qa-icon {
+            font-size: 32px;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .quick-action-card h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: white;
+        }
+
+        .quick-action-card p {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            margin: 0;
+        }
+
+        .quick-action-card .qa-arrow {
+            display: inline-block;
+            margin-top: 10px;
+            color: var(--primary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .quick-action-card:hover .qa-arrow {
+            transform: translateX(5px);
+        }
+
+        .doctor-register-wrapper {
+            background: var(--nav-color);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .doctor-register-wrapper:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 50px rgba(68, 161, 164, 0.15);
+        }
+
+        .doctor-register-wrapper .register-icon {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .doctor-register-wrapper h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .doctor-register-wrapper h3 span {
+            color: var(--primary);
+        }
+
+        .doctor-register-wrapper p {
+            font-size: 15px;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 20px;
+        }
+
+        .btn-register-doctor {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 35px;
+            border-radius: 50px;
+            border: none;
+            background: linear-gradient(135deg, var(--cta-accent), #E68A00);
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 154, 0, 0.3);
+        }
+
+        .btn-register-doctor:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 154, 0, 0.4);
+            background: linear-gradient(135deg, #FFAA33, #D98A00);
+        }
+
+        .btn-register-doctor i {
+            font-size: 20px;
+        }
+
+        .verification-status {
+            background: var(--nav-color);
+            border-radius: 25px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            display: none;
+        }
+
+        .verification-status.show {
+            display: block;
+        }
+
+        .verification-status .status-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .verification-status .status-icon {
+            font-size: 32px;
+        }
+
+        .verification-status .status-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .verification-status .status-text.pending {
+            color: #FFC107;
+        }
+
+        .verification-status .status-text.verified {
+            color: #4CAF50;
+        }
+
+        .verification-status .status-text.rejected {
+            color: #ff6b6b;
+        }
+
+        .verification-status .status-detail {
+            font-size: 14px;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 15px;
+        }
+
+        .verification-status .status-detail strong {
+            color: white;
+        }
+
+        .verification-status .admin-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .btn-verify {
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-verify.approve {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-verify.approve:hover {
+            background: #388E3C;
+            transform: translateY(-2px);
+        }
+
+        .btn-verify.reject {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-verify.reject:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .btn-verify.pending {
+            background: #FFC107;
+            color: #333;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .doctor-mitra-wrapper {
+            background: var(--nav-color);
+            border-radius: 25px;
+            padding: 35px 40px;
+            margin-bottom: 30px;
+            border: 2px solid #4CAF50;
+            box-shadow: 0 8px 30px rgba(76, 175, 80, 0.15);
+            display: none;
+        }
+
+        .doctor-mitra-wrapper.show {
+            display: block;
+        }
+
+        .doctor-mitra-wrapper .mitra-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .doctor-mitra-wrapper .mitra-header h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .doctor-mitra-wrapper .mitra-header h3 i {
+            color: #4CAF50;
+        }
+
+        .doctor-mitra-wrapper .mitra-header .badge-verified {
+            background: rgba(76, 175, 80, 0.15);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            padding: 6px 18px;
+            border-radius: 20px;
+            color: #4CAF50;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .doctor-mitra-wrapper .mitra-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 20px 0 25px;
+        }
+
+        .doctor-mitra-wrapper .mitra-stat-item {
+            background: rgba(255,255,255,0.04);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: all 0.3s ease;
+        }
+
+        .doctor-mitra-wrapper .mitra-stat-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary);
+        }
+
+        .doctor-mitra-wrapper .mitra-stat-item .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .doctor-mitra-wrapper .mitra-stat-item .stat-label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            margin-top: 4px;
+            display: block;
+        }
+
+        .doctor-mitra-wrapper .mitra-stat-item .stat-icon {
+            font-size: 24px;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .doctor-mitra-wrapper .mitra-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .doctor-mitra-wrapper .btn-mitra {
+            padding: 12px 28px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .doctor-mitra-wrapper .btn-mitra.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .doctor-mitra-wrapper .btn-mitra.primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .doctor-mitra-wrapper .btn-mitra.accent {
+            background: var(--cta-accent);
+            color: white;
+        }
+
+        .doctor-mitra-wrapper .btn-mitra.accent:hover {
+            background: #E68A00;
+            transform: translateY(-2px);
+        }
+
+        .doctor-mitra-wrapper .btn-mitra.danger {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .doctor-mitra-wrapper .btn-mitra.danger:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--nav-color);
+            border-radius: 25px;
+            padding: 35px 40px;
+            max-width: 450px;
+            width: 100%;
+            border: 2px solid var(--primary);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: slideUpModal 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes slideUpModal {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-content .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-content .modal-header h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .modal-content .modal-header .modal-close {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.5);
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-content .modal-header .modal-close:hover {
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .modal-content .modal-body label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 6px;
+        }
+
+        .modal-content .modal-body input {
+            width: 100%;
+            padding: 13px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.25);
+            color: white;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .modal-content .modal-body input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(68, 161, 164, 0.15);
+        }
+
+        .modal-content .modal-body input::placeholder {
+            color: rgba(255,255,255,0.4);
+        }
+
+        .modal-content .modal-footer {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .modal-content .modal-footer .btn-save {
+            flex: 1;
+            padding: 12px;
+            border-radius: 50px;
+            border: none;
+            background: linear-gradient(to bottom, var(--cta-accent), #E68A00);
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 154, 0, 0.3);
+        }
+
+        .modal-content .modal-footer .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255, 154, 0, 0.4);
+        }
+
+        .modal-content .modal-footer .btn-cancel {
+            flex: 1;
+            padding: 12px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: transparent;
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-content .modal-footer .btn-cancel:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .modal-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-hover);
+        }
+
+        /* ============================================================
+           NAVBAR KHUSUS DASHBOARD - TANPA MENU NAVIGASI
+           ============================================================ */
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 30px;
+            background-color: var(--nav-color);
+            border-bottom-left-radius: 30px;
+            border-bottom-right-radius: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            transition: all 0.3s ease;
+            min-height: 68px;
+        }
+
+        /* SEMBUNYIKAN NAV-LINKS DI DASHBOARD */
+        .nav-links {
+            display: none !important;
+        }
+
+        /* LOGO DI KIRI */
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .logo-area img {
+            height: 36px;
+        }
+
+        .logo-text {
+            font-weight: bold;
+            font-size: 18px;
+            letter-spacing: 0.5px;
+            color: white;
+            white-space: nowrap;
+        }
+
+        /* NAV-RIGHT - User Info DI KANAN */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-shrink: 0;
+        }
+
+        .nav-right .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-size: 13px;
+        }
+
+        .nav-right .nav-user strong {
+            color: var(--cta-accent);
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .nav-right .btn-logout {
+            background: rgba(255,255,255,0.15);
+            padding: 5px 14px;
+            border-radius: 20px;
+            color: white !important;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .nav-right .btn-logout:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-2px);
+        }
+
+        /* HAMBURGER DI KANAN (MOBILE) */
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 5px 8px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .hamburger:hover {
+            opacity: 0.8;
+        }
+
+        .mobile-menu-overlay {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 16px;
+            background: var(--nav-color);
+            padding: 12px 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            flex-direction: column;
+            gap: 8px;
+            z-index: 1000;
+            border: 1px solid rgba(255,255,255,0.05);
+            min-width: 120px;
+        }
+
+        .mobile-menu-overlay.open {
+            display: flex;
+        }
+
+        .mobile-menu-overlay a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-overlay a:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .mobile-menu-overlay .btn-logout-mobile {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        /* RESPONSIVE MOBILE */
+        @media (max-width: 768px) {
+            nav {
+                padding: 10px 16px;
+                min-height: 60px;
+                border-bottom-left-radius: 20px;
+                border-bottom-right-radius: 20px;
+            }
+
+            .logo-area img {
+                height: 30px;
+            }
+
+            .logo-text {
+                font-size: 15px;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .nav-right .nav-user span {
+                font-size: 12px;
+            }
+
+            .nav-right .nav-user strong {
+                max-width: 60px;
+            }
+
+            .nav-right .btn-logout {
+                font-size: 11px;
+                padding: 4px 12px;
+            }
+
+            .mobile-menu-overlay {
+                top: 60px;
+                right: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                padding: 8px 12px;
+                min-height: 54px;
+                border-bottom-left-radius: 16px;
+                border-bottom-right-radius: 16px;
+            }
+
+            .logo-area {
+                gap: 6px;
+            }
+
+            .logo-area img {
+                height: 26px;
+            }
+
+            .logo-text {
+                font-size: 13px;
+            }
+
+            .hamburger {
+                font-size: 24px;
+                padding: 3px 6px;
+            }
+
+            .nav-right .nav-user span {
+                font-size: 11px;
+            }
+
+            .nav-right .nav-user strong {
+                max-width: 50px;
+                font-size: 11px;
+            }
+
+            .nav-right .btn-logout {
+                font-size: 10px;
+                padding: 3px 10px;
+            }
+
+            .mobile-menu-overlay {
+                top: 54px;
+                right: 12px;
+                padding: 10px 16px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .doctor-mitra-wrapper .mitra-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dash-container {
+                padding: 15px 20px;
+            }
+            .dash-greeting-banner {
+                padding: 25px 20px;
+                flex-direction: column;
+                text-align: center;
+            }
+            .dash-greeting-banner .greeting-text h1 {
+                font-size: 22px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+            .stat-card {
+                padding: 18px 15px;
+            }
+            .stat-card .stat-number {
+                font-size: 22px;
+            }
+            .profile-section {
+                padding: 25px 20px;
+            }
+            .profile-section .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .profile-section .profile-info h3 {
+                justify-content: center;
+            }
+            .profile-section .profile-details {
+                grid-template-columns: 1fr 1fr;
+            }
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+            .modal-content {
+                padding: 25px 20px;
+            }
+            .doctor-register-wrapper {
+                padding: 25px 20px;
+            }
+            .doctor-register-wrapper h3 {
+                font-size: 20px;
+            }
+            .btn-register-doctor {
+                padding: 12px 25px;
+                font-size: 14px;
+                width: 100%;
+                justify-content: center;
+            }
+            .doctor-mitra-wrapper {
+                padding: 25px 20px;
+            }
+            .doctor-mitra-wrapper .mitra-stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dash-container {
+                padding: 10px 15px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .stat-card {
+                padding: 14px 12px;
+            }
+            .stat-card .stat-number {
+                font-size: 18px;
+            }
+            .stat-card .stat-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+            .profile-section .profile-details {
+                grid-template-columns: 1fr;
+            }
+            .profile-section .profile-avatar {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+            .quick-action-card .qa-icon {
+                font-size: 24px;
+            }
+            .quick-action-card h4 {
+                font-size: 14px;
+            }
+            .modal-content .modal-footer {
+                flex-direction: column;
+            }
+            .doctor-register-wrapper {
+                padding: 20px 15px;
+            }
+            .doctor-register-wrapper h3 {
+                font-size: 17px;
+            }
+            .doctor-register-wrapper p {
+                font-size: 13px;
+            }
+            .btn-register-doctor {
+                font-size: 13px;
+                padding: 10px 20px;
+            }
+            .doctor-mitra-wrapper .mitra-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+         LOADING ANIMASI
+         ============================================================ -->
+    <div class="loader-overlay" id="loaderOverlay">
+        <div class="loader-logo">JAGA <span>TUBUH</span></div>
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Memuat</div>
+        <div class="loader-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         NAVBAR KHUSUS DASHBOARD - LOGO DI KIRI, USER DI KANAN
+         ============================================================ -->
+    <nav>
+        <!-- KIRI: Logo -->
+        <div class="logo-area">
+            <img src="LOGO.png" alt="Logo JagaTubuh" onerror="this.src='https://via.placeholder.com/40'"> 
+            <span class="logo-text">JAGA TUBUH</span>
+        </div>
+
+        <!-- TENGAH: Kosong (nav-links disembunyikan) -->
+
+        <!-- KANAN: User Info + Logout -->
+        <div class="nav-right">
+            <div class="nav-user">
+                <span>Halo, <strong id="userNameDisplay">User</strong></span>
+                <a href="#" onclick="logoutUser()" class="btn-logout">Logout</a>
+            </div>
+            <button class="hamburger" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay (HANYA LOGOUT) -->
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+            <a href="#" onclick="logoutUser()" class="btn-logout-mobile">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </nav>
+
+    <!-- ============================================================
+         DASHBOARD CONTENT
+         ============================================================ -->
+    <div class="dashboard-page">
+        <div class="dash-container">
+
+            <!-- Tombol Kembali -->
+            <div class="back-button-wrapper">
+                <a href="index.html" class="btn-back">
+                    <i class="fas fa-arrow-left"></i> Kembali ke Beranda
+                </a>
+            </div>
+
+            <!-- GREETING BANNER -->
+            <div class="dash-greeting-banner" data-aos="fade-up" data-aos-duration="800">
+                <div class="greeting-text">
+                    <h1>👋 Halo, <span id="dashUserName">User</span></h1>
+                    <p>Selamat datang kembali di dashboard JagaTubuh</p>
+                </div>
+                <div class="greeting-badge">
+                    <i class="fas fa-crown"></i>
+                    <span id="dashMemberStatus">Member Premium</span>
+                </div>
+            </div>
+
+            <!-- STATS GRID -->
+            <div class="stats-grid" data-aos="fade-up" data-aos-duration="800">
+
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-heartbeat"></i></div>
+                    <div class="stat-number" id="dashHealthScore">-</div>
+                    <div class="stat-label">Health Score</div>
+                    <span class="stat-change positive" id="dashHealthTrend">↑ 0 poin</span>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-weight"></i></div>
+                    <div class="stat-number" id="dashWeight">-</div>
+                    <div class="stat-label">Berat Badan</div>
+                    <span class="stat-change neutral" id="dashWeightTrend">● Stabil</span>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                    <div class="stat-number" id="dashConsultations">0</div>
+                    <div class="stat-label">Konsultasi</div>
+                    <span class="stat-change neutral" id="dashConsultStatus">● Belum ada</span>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-bullseye"></i></div>
+                    <div class="stat-number" id="dashTargetWeight">-</div>
+                    <div class="stat-label">Target Berat</div>
+                    <span class="stat-change positive" id="dashTargetProgress">🎯 Belum ditentukan</span>
+                </div>
+
+            </div>
+
+            <!-- PROFILE SECTION -->
+            <div class="profile-section" data-aos="fade-up" data-aos-duration="800">
+                <div class="profile-header">
+                    <div class="profile-avatar" id="dashAvatar">
+                        U
+                        <span class="avatar-edit-btn" onclick="openEditNameModal()" title="Ubah Avatar">
+                            <i class="fas fa-pen"></i>
+                        </span>
+                    </div>
+                    <div class="profile-info">
+                        <h3>
+                            <span id="dashProfileName">User</span>
+                            <button class="edit-name-btn" onclick="openEditNameModal()">
+                                <i class="fas fa-pencil-alt"></i> Edit
+                            </button>
+                        </h3>
+                        <p id="dashProfileEmail">user@email.com</p>
+                        <span class="profile-badge">⭐ Member Premium</span>
+                    </div>
+                </div>
+                <div class="profile-details">
+                    <div class="profile-detail-item">
+                        <div class="detail-label">Bergabung Sejak</div>
+                        <div class="detail-value" id="dashJoined">-</div>
+                    </div>
+                    <div class="profile-detail-item">
+                        <div class="detail-label">Status</div>
+                        <div class="detail-value" id="dashStatus">Premium</div>
+                    </div>
+                    <div class="profile-detail-item">
+                        <div class="detail-label">Total Check</div>
+                        <div class="detail-value"><i class="fas fa-check-circle"></i> <span id="dashTotalCheck">0</span> kali</div>
+                    </div>
+                    <div class="profile-detail-item">
+                        <div class="detail-label">Konsultasi Selesai</div>
+                        <div class="detail-value"><i class="fas fa-user-md"></i> <span id="dashConsultDone">0</span> kali</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VERIFICATION STATUS -->
+            <div class="verification-status" id="verificationStatus">
+                <div class="status-header">
+                    <span class="status-icon" id="statusIcon">🟡</span>
+                    <span class="status-text" id="statusText">Menunggu Verifikasi</span>
+                </div>
+                <div class="status-detail" id="statusDetail">
+                    Dokumen Anda sedang diperiksa oleh tim admin. Proses verifikasi membutuhkan waktu 1x24 jam.
+                </div>
+                <div class="admin-actions" id="adminActions"></div>
+            </div>
+
+            <!-- DOCTOR MITRA DASHBOARD -->
+            <div class="doctor-mitra-wrapper" id="doctorMitraWrapper">
+                <div class="mitra-header">
+                    <h3><i class="fas fa-user-md"></i> JagaTubuh Professional</h3>
+                    <span class="badge-verified">🟢 Terverifikasi</span>
+                </div>
+                <p style="color: rgba(255,255,255,0.6); font-size: 14px; margin-bottom: 5px;">
+                    Halo, <strong id="mitraDoctorName" style="color: white;">Dokter</strong> 👋 Selamat datang di dashboard mitra!
+                </p>
+                <div class="mitra-stats">
+                    <div class="mitra-stat-item">
+                        <span class="stat-icon"><i class="fas fa-calendar-check"></i></span>
+                        <div class="stat-number" id="mitraTodayAppointments">0</div>
+                        <span class="stat-label">Jadwal Hari Ini</span>
+                    </div>
+                    <div class="mitra-stat-item">
+                        <span class="stat-icon"><i class="fas fa-users"></i></span>
+                        <div class="stat-number" id="mitraTotalPatients">0</div>
+                        <span class="stat-label">Total Pasien</span>
+                    </div>
+                    <div class="mitra-stat-item">
+                        <span class="stat-icon"><i class="fas fa-star"></i></span>
+                        <div class="stat-number" id="mitraRating">4.9</div>
+                        <span class="stat-label">⭐ Rating</span>
+                    </div>
+                    <div class="mitra-stat-item">
+                        <span class="stat-icon"><i class="fas fa-money-bill-wave"></i></span>
+                        <div class="stat-number" id="mitraRevenue">Rp0</div>
+                        <span class="stat-label">Pendapatan</span>
+                    </div>
+                </div>
+                <div class="mitra-actions">
+                    <button class="btn-mitra primary" onclick="openManageSchedule()">
+                        <i class="fas fa-calendar-edit"></i> Kelola Jadwal
+                    </button>
+                    <button class="btn-mitra accent" onclick="openManageServices()">
+                        <i class="fas fa-hand-holding-heart"></i> Kelola Layanan
+                    </button>
+                    <button class="btn-mitra danger" onclick="toggleDoctorAvailability()">
+                        <i class="fas fa-pause"></i> Tutup Konsultasi
+                    </button>
+                </div>
+            </div>
+
+            <!-- QUICK ACTIONS -->
+            <div class="quick-actions" data-aos="fade-up" data-aos-duration="800">
+
+                <a href="health-check.html" class="quick-action-card">
+                    <span class="qa-icon"><i class="fas fa-stethoscope"></i></span>
+                    <h4>Cek Kesehatan</h4>
+                    <p>Analisis kondisi tubuh Anda</p>
+                    <span class="qa-arrow"><i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <a href="konsultasi.html" class="quick-action-card">
+                    <span class="qa-icon"><i class="fas fa-user-md"></i></span>
+                    <h4>Konsultasi Gizi</h4>
+                    <p>Konsultasi dengan ahli gizi</p>
+                    <span class="qa-arrow"><i class="fas fa-arrow-right"></i></span>
+                </a>
+
+                <a href="community.html" class="quick-action-card">
+                    <span class="qa-icon"><i class="fas fa-users"></i></span>
+                    <h4>Komunitas</h4>
+                    <p>Bergabung dengan sesama</p>
+                    <span class="qa-arrow"><i class="fas fa-arrow-right"></i></span>
+                </a>
+
+            </div>
+
+            <!-- DAFTAR SEBAGAI AHLI GIZI -->
+            <div class="doctor-register-wrapper" data-aos="fade-up" data-aos-duration="800">
+                <span class="register-icon"><i class="fas fa-user-md"></i></span>
+                <h3>Daftar sebagai <span>Ahli Gizi</span></h3>
+                <p>Bergabunglah sebagai mitra profesional JagaTubuh</p>
+                <button class="btn-register-doctor" onclick="openDoctorRegistration()">
+                    <i class="fas fa-user-plus"></i>
+                    Daftar Sekarang
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ============================================================
+         MODAL EDIT NAMA
+         ============================================================ -->
+    <div class="modal-overlay" id="editNameModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-edit" style="color:var(--primary);"></i> Edit Nama</h3>
+                <button class="modal-close" onclick="closeEditNameModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <label>Nama Lengkap</label>
+                <input type="text" id="editNameInput" placeholder="Masukkan nama baru">
+                <p style="font-size:12px; color:rgba(255,255,255,0.4); margin-top:6px;">
+                    Perubahan akan disimpan dan digunakan di seluruh halaman.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeEditNameModal()">Batal</button>
+                <button class="btn-save" onclick="saveUserName()">
+                    <i class="fas fa-save"></i> Simpan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         MODAL REGISTRASI DOKTER
+         ============================================================ -->
+    <div class="modal-overlay" id="registerDoctorModal">
+        <div class="modal-content" style="max-width: 520px; max-height: 90vh; overflow-y: auto; padding: 30px 35px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-md" style="color:var(--primary);"></i> Daftar sebagai Ahli Gizi</h3>
+                <button class="modal-close" onclick="closeRegisterDoctorModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <p style="color: rgba(255,255,255,0.6); font-size: 14px; margin-bottom: 20px;">
+                    Isi data berikut untuk mendaftar sebagai mitra profesional JagaTubuh.
+                    Tim admin akan melakukan verifikasi dalam 1x24 jam.
+                </p>
+                <form onsubmit="submitDoctorRegister(event)" id="doctorRegisterForm">
+                    <div style="margin-bottom: 16px;">
+                        <label style="display:block; font-size:13px; font-weight:600; color:rgba(255,255,255,0.8); margin-bottom:5px;">
+                            <i class="fas fa-user" style="color:var(--primary);"></i> Nama Lengkap
+                        </label>
+                        <input type="text" id="docRegName" placeholder="dr. Andini Putri, Sp.GK" required style="width:100%; padding:12px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.2); background:rgba(0,0,0,0.25); color:white; font-size:14px; outline:none; transition:all 0.3s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(255,255,255,0.2)'" />
+                    </div>
+
+                    <div style="margin-bottom: 16px;">
+                        <label style="display:block; font-size:13px; font-weight:600; color:rgba(255,255,255,0.8); margin-bottom:5px;">
+                            <i class="fas fa-envelope" style="color:var(--primary);"></i> Email
+                        </label>
+                        <input type="email" id="docRegEmail" placeholder="dokter@email.com" required style="width:100%; padding:12px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.2); background:rgba(0,0,0,0.25); color:white; font-size:14px; outline:none; transition:all 0.3s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(255,255,255,0.2)'" />
+                    </div>
+
+                    <div style="margin-bottom: 16px;">
+                        <label style="display:block; font-size:13px; font-weight:600; color:rgba(255,255,255,0.8); margin-bottom:5px;">
+                            <i class="fas fa-phone" style="color:var(--primary);"></i> Nomor HP
+                        </label>
+                        <input type="tel" id="docRegPhone" placeholder="081234567890" required style="width:100%; padding:12px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.2); background:rgba(0,0,0,0.25); color:white; font-size:14px; outline:none; transition:all 0.3s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(255,255,255,0.2)'" />
+                    </div>
+
+                    <div style="margin-bottom: 16px;">
+                        <label style="display:block; font-size:13px; font-weight:600; color:rgba(255,255,255,0.8); margin-bottom:5px;">
+                            <i class="fas fa-stethoscope" style="color:var(--primary);"></i> Spesialisasi
+                        </label>
+                        <select id="docRegSpecialty" required style="width:100%; padding:12px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.2); background:rgba(0,0,0,0.25); color:white; font-size:14px; outline:none; cursor:pointer; transition:all 0.3s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(255,255,255,0.2)'">
+                            <option value="" style="background:#224248;">Pilih Spesialisasi</option>
+                            <option value="Gizi Klinis" style="background:#224248;">Gizi Klinis</option>
+                            <option value="Gizi Olahraga" style="background:#224248;">Gizi Olahraga</option>
+                            <option value="Gizi Anak" style="background:#224248;">Gizi Anak</option>
+                            <option value="Gizi Lansia" style="background:#224248;">Gizi Lansia</option>
+                            <option value="Diet Khusus" style="background:#224248;">Diet Khusus</option>
+                        </select>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 16px;">
+                        <div>
+                            <label style="display:block; font-size:13px; font-weight:600; color:rgba(255,255,255,0.8); margin-bottom:5px;">
+                                <i class="fas fa-briefcase" style="color:var(--primary);"></i> Pengalaman (Tahun)
+                            </label>
+                            <input type="number" id="docRegExperience" placeholder="5" min="0" required style="width:100%; padding:12px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.2); background:rgba(0,0,0,0.25); color:white; font-size:14px; outline:none; transition:all 0.3s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(255,255,255,0.2)'" />
+                        </div>
+                        <div>
+                            <label style="display:block; font-size:13px; font-weight:600; color:rgba(255,255,255,0.8); margin-bottom:5px;">
+                                <i class="fas fa-graduation-cap" style="color:var(--primary);"></i> Pendidikan
+                            </label>
+                            <input type="text" id="docRegEducation" placeholder="S2 Gizi Klinis - UI" required style="width:100%; padding:12px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.2); background:rgba(0,0,0,0.25); color:white; font-size:14px; outline:none; transition:all 0.3s;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='rgba(255,255,255,0.2)'" />
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(255, 193, 7, 0.1); padding: 15px; border-radius: 12px; border-left: 4px solid #FFC107; margin-bottom: 20px;">
+                        <p style="color: #FFC107; font-size: 14px; margin: 0;">
+                            <i class="fas fa-clock"></i> Status: <strong>🟡 Menunggu Verifikasi</strong>
+                        </p>
+                        <p style="color: rgba(255,255,255,0.4); font-size: 12px; margin: 5px 0 0;">
+                            Dokumen akan diverifikasi oleh tim admin
+                        </p>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; margin-top: 5px;">
+                        <button type="button" class="btn-cancel" onclick="closeRegisterDoctorModal()" style="flex:1; padding:12px; border-radius:50px; border:1px solid rgba(255,255,255,0.2); background:transparent; color:white; font-weight:600; font-size:14px; cursor:pointer; transition:all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">
+                            Batal
+                        </button>
+                        <button type="submit" class="btn-save" style="flex:2; padding:12px; border-radius:50px; border:none; background:linear-gradient(to bottom, var(--cta-accent), #E68A00); color:white; font-weight:700; font-size:14px; cursor:pointer; transition:all 0.3s; box-shadow:0 4px 15px rgba(255,154,0,0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 25px rgba(255,154,0,0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(255,154,0,0.3)'">
+                            <i class="fas fa-paper-plane"></i> Kirim Pendaftaran
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         FOOTER
+         ============================================================ -->
+    <footer>
+        <p>&copy; 2026 JagaTubuh. Teman digital untuk gaya hidup sehat.</p>
+    </footer>
+
+    <!-- ============================================================
+         SCRIPT
+         ============================================================ -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                const loader = document.getElementById('loaderOverlay');
+                if (loader) {
+                    loader.classList.add('hidden');
+                    setTimeout(function() {
+                        loader.style.display = 'none';
+                    }, 700);
+                }
+            }, 1200);
+
+            loadDashboardData();
+            updateNavbarName();
+            checkDoctorVerification();
+        });
+
+        // ============================================================
+        // LOAD DASHBOARD DATA
+        // ============================================================
+        function loadDashboardData() {
+            const user = JSON.parse(localStorage.getItem('jagaTubuhCurrentUser'));
+            const result = JSON.parse(localStorage.getItem('jagaTubuhResult'));
+            const bookings = JSON.parse(localStorage.getItem('jagaTubuhBookings') || '[]');
+            const target = JSON.parse(localStorage.getItem('jagaTubuhHealthTarget'));
+
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            document.getElementById('dashUserName').textContent = user.name || 'User';
+            document.getElementById('dashAvatar').textContent = (user.name || 'U').charAt(0).toUpperCase();
+            document.getElementById('dashProfileName').textContent = user.name || 'User';
+            document.getElementById('dashProfileEmail').textContent = user.email || 'user@email.com';
+            document.getElementById('dashJoined').textContent = user.registeredAt ? 
+                new Date(user.registeredAt).toLocaleDateString('id-ID', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                }) : 'Januari 2026';
+            document.getElementById('dashStatus').textContent = 'Premium';
+            document.getElementById('dashMemberStatus').textContent = 'Member Premium';
+
+            if (result && result.score) {
+                document.getElementById('dashHealthScore').textContent = result.score;
+                document.getElementById('dashHealthTrend').textContent = '↑ ' + result.score + ' poin';
+                document.getElementById('dashHealthTrend').className = 'stat-change positive';
+            } else {
+                document.getElementById('dashHealthScore').textContent = '-';
+                document.getElementById('dashHealthTrend').textContent = '● Belum ada data';
+                document.getElementById('dashHealthTrend').className = 'stat-change neutral';
+            }
+
+            if (result && result.currentWeight) {
+                document.getElementById('dashWeight').textContent = result.currentWeight + ' kg';
+                document.getElementById('dashWeightTrend').textContent = '● Terpantau';
+                document.getElementById('dashWeightTrend').className = 'stat-change neutral';
+            } else {
+                document.getElementById('dashWeight').textContent = '-';
+                document.getElementById('dashWeightTrend').textContent = '● Belum ada data';
+                document.getElementById('dashWeightTrend').className = 'stat-change neutral';
+            }
+
+            const completedBookings = bookings.filter(b => b.status === 'completed');
+            const totalBookings = bookings.length;
+            
+            document.getElementById('dashConsultations').textContent = totalBookings || '0';
+            document.getElementById('dashConsultDone').textContent = completedBookings.length || '0';
+            
+            if (totalBookings > 0) {
+                document.getElementById('dashConsultStatus').textContent = '✅ ' + totalBookings + ' booking';
+                document.getElementById('dashConsultStatus').className = 'stat-change positive';
+            } else {
+                document.getElementById('dashConsultStatus').textContent = '● Belum ada booking';
+                document.getElementById('dashConsultStatus').className = 'stat-change neutral';
+            }
+
+            if (target && target.targetWeight) {
+                document.getElementById('dashTargetWeight').textContent = target.targetWeight + ' kg';
+                document.getElementById('dashTargetProgress').textContent = '🎯 Target ditetapkan';
+                document.getElementById('dashTargetProgress').className = 'stat-change positive';
+            } else if (result && result.targetWeight) {
+                document.getElementById('dashTargetWeight').textContent = result.targetWeight + ' kg';
+                document.getElementById('dashTargetProgress').textContent = '🎯 Dari Cek Kesehatan';
+                document.getElementById('dashTargetProgress').className = 'stat-change positive';
+            } else {
+                document.getElementById('dashTargetWeight').textContent = '-';
+                document.getElementById('dashTargetProgress').textContent = '🎯 Belum ditentukan';
+                document.getElementById('dashTargetProgress').className = 'stat-change neutral';
+            }
+
+            document.getElementById('dashTotalCheck').textContent = (result && result.totalCheck) ? result.totalCheck : '1';
+            document.getElementById('editNameInput').value = user.name || '';
+        }
+
+        function updateNavbarName() {
+            const user = JSON.parse(localStorage.getItem('jagaTubuhCurrentUser'));
+            const userNameDisplay = document.getElementById('userNameDisplay');
+            if (userNameDisplay && user) {
+                userNameDisplay.textContent = user.name || 'User';
+            }
+        }
+
+        // ============================================================
+        // EDIT NAME MODAL
+        // ============================================================
+        function openEditNameModal() {
+            const user = JSON.parse(localStorage.getItem('jagaTubuhCurrentUser'));
+            if (user) {
+                document.getElementById('editNameInput').value = user.name || '';
+            }
+            document.getElementById('editNameModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                document.getElementById('editNameInput').focus();
+                document.getElementById('editNameInput').select();
+            }, 300);
+        }
+
+        function closeEditNameModal() {
+            document.getElementById('editNameModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function saveUserName() {
+            const newName = document.getElementById('editNameInput').value.trim();
+            if (!newName) {
+                alert('⚠️ Nama tidak boleh kosong!');
+                return;
+            }
+
+            let user = JSON.parse(localStorage.getItem('jagaTubuhCurrentUser'));
+            if (user) {
+                user.name = newName;
+                localStorage.setItem('jagaTubuhCurrentUser', JSON.stringify(user));
+            }
+
+            let users = JSON.parse(localStorage.getItem('jagaTubuhUsers') || '[]');
+            const index = users.findIndex(u => u.email === user.email);
+            if (index !== -1) {
+                users[index].name = newName;
+                localStorage.setItem('jagaTubuhUsers', JSON.stringify(users));
+            }
+
+            document.getElementById('dashUserName').textContent = newName;
+            document.getElementById('dashProfileName').textContent = newName;
+            document.getElementById('dashAvatar').textContent = newName.charAt(0).toUpperCase();
+            document.getElementById('userNameDisplay').textContent = newName;
+
+            closeEditNameModal();
+            showToast('✅ Nama berhasil diperbarui!');
+        }
+
+        // ============================================================
+        // DOCTOR REGISTRATION
+        // ============================================================
+        function openDoctorRegistration() {
+            const user = JSON.parse(localStorage.getItem('jagaTubuhCurrentUser'));
+            if (!user) {
+                showToast('⚠️ Silakan login terlebih dahulu');
+                setTimeout(() => window.location.href = 'login.html', 1500);
+                return;
+            }
+            document.getElementById('docRegEmail').value = user.email || '';
+            document.getElementById('docRegName').value = user.name || '';
+            document.getElementById('registerDoctorModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeRegisterDoctorModal() {
+            document.getElementById('registerDoctorModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function submitDoctorRegister(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('docRegName').value.trim();
+            const email = document.getElementById('docRegEmail').value.trim();
+            const phone = document.getElementById('docRegPhone').value.trim();
+            const specialty = document.getElementById('docRegSpecialty').value;
+            const experience = document.getElementById('docRegExperience').value;
+            const education = document.getElementById('docRegEducation').value.trim();
+
+            if (!name || !email || !phone || !specialty || !experience || !education) {
+                showToast('⚠️ Semua field harus diisi!');
+                return;
+            }
+
+            const registrations = JSON.parse(localStorage.getItem('jagaTubuhDoctorRegistrations') || '[]');
+            registrations.push({
+                name,
+                email,
+                phone,
+                specialty,
+                experience: experience + ' Tahun',
+                education,
+                status: 'pending',
+                registeredAt: new Date().toISOString(),
+                isOpen: false
+            });
+            localStorage.setItem('jagaTubuhDoctorRegistrations', JSON.stringify(registrations));
+
+            showToast('✅ Pendaftaran berhasil! Menunggu verifikasi admin.');
+            closeRegisterDoctorModal();
+            document.getElementById('registerDoctorModal').querySelector('form').reset();
+            checkDoctorVerification();
+        }
+
+        // ============================================================
+        // DOCTOR VERIFICATION
+        // ============================================================
+        function checkDoctorVerification() {
+            const user = JSON.parse(localStorage.getItem('jagaTubuhCurrentUser'));
+            if (!user) return;
+            
+            const registrations = JSON.parse(localStorage.getItem('jagaTubuhDoctorRegistrations') || '[]');
+            const userRegistration = registrations.find(r => r.email === user.email);
+            
+            const statusContainer = document.getElementById('verificationStatus');
+            const mitraContainer = document.getElementById('doctorMitraWrapper');
+            
+            if (!userRegistration) {
+                if (statusContainer) statusContainer.classList.remove('show');
+                if (mitraContainer) mitraContainer.classList.remove('show');
+                return;
+            }
+
+            if (statusContainer) {
+                statusContainer.classList.add('show');
+                const statusIcon = document.getElementById('statusIcon');
+                const statusText = document.getElementById('statusText');
+                const statusDetail = document.getElementById('statusDetail');
+                const adminActions = document.getElementById('adminActions');
+                
+                if (userRegistration.status === 'pending') {
+                    statusIcon.textContent = '🟡';
+                    statusText.textContent = 'Menunggu Verifikasi';
+                    statusText.className = 'status-text pending';
+                    statusDetail.innerHTML = `
+                        Dokumen Anda sedang diperiksa oleh tim admin. 
+                        Proses verifikasi membutuhkan waktu 1x24 jam.
+                        <br><br>
+                        <strong>Dokumen yang nantinya perlu diupload:</strong><br>
+                        📄 STR, 📄 SIP, 📄 Sertifikat Kompetensi, 📄 CV, 📷 Identitas
+                    `;
+                    adminActions.innerHTML = `
+                        <button class="btn-verify pending" disabled>
+                            <i class="fas fa-clock"></i> Menunggu Verifikasi
+                        </button>
+                    `;
+                } else if (userRegistration.status === 'verified') {
+                    statusIcon.textContent = '🟢';
+                    statusText.textContent = '✅ Terverifikasi!';
+                    statusText.className = 'status-text verified';
+                    statusDetail.innerHTML = `
+                        Selamat! Akun Anda telah diverifikasi oleh tim admin.
+                        Anda sekarang dapat mengakses <strong>Dashboard Mitra</strong> 
+                        dan menerima konsultasi dari pasien.
+                    `;
+                    adminActions.innerHTML = '';
+                    
+                    if (mitraContainer) {
+                        mitraContainer.classList.add('show');
+                        document.getElementById('mitraDoctorName').textContent = userRegistration.name || 'Dokter';
+                        loadMitraStats();
+                    }
+                } else if (userRegistration.status === 'rejected') {
+                    statusIcon.textContent = '🔴';
+                    statusText.textContent = '❌ Verifikasi Ditolak';
+                    statusText.className = 'status-text rejected';
+                    statusDetail.innerHTML = `
+                        Maaf, pendaftaran Anda sebagai ahli gizi ditolak.
+                        <br><br>
+                        <strong>Alasan:</strong> ${userRegistration.rejectionReason || 'Dokumen tidak lengkap atau tidak valid.'}
+                        <br><br>
+                        Silakan perbaiki dan daftar ulang.
+                    `;
+                    adminActions.innerHTML = `
+                        <button class="btn-verify approve" onclick="reapplyDoctor()">
+                            <i class="fas fa-redo"></i> Daftar Ulang
+                        </button>
+                    `;
+                }
+            }
+        }
+
+        function loadMitraStats() {
+            const appointments = JSON.parse(localStorage.getItem('jagaTubuhBookings') || '[]');
+            const today = new Date().toISOString().split('T')[0];
+            
+            const todayAppointments = appointments.filter(a => {
+                const aptDate = a.createdAt ? new Date(a.createdAt).toISOString().split('T')[0] : '';
+                return aptDate === today && (a.status === 'confirmed' || a.status === 'pending');
+            });
+            
+            const totalPatients = appointments.filter(a => a.status === 'completed' || a.status === 'confirmed').length;
+            const revenue = appointments.filter(a => a.status === 'completed').reduce((sum, a) => sum + (a.price || 0), 0);
+            
+            document.getElementById('mitraTodayAppointments').textContent = todayAppointments.length;
+            document.getElementById('mitraTotalPatients').textContent = totalPatients || 0;
+            document.getElementById('mitraRevenue').textContent = 'Rp' + revenue.toLocaleString();
+        }
+
+        function reapplyDoctor() {
+            const user = JSON.parse(localStorage.getItem('jagaTubuhCurrentUser'));
+            if (!user) {
+                showToast('⚠️ Silakan login terlebih dahulu');
+                return;
+            }
+            
+            let registrations = JSON.parse(localStorage.getItem('jagaTubuhDoctorRegistrations') || '[]');
+            registrations = registrations.filter(r => r.email !== user.email);
+            localStorage.setItem('jagaTubuhDoctorRegistrations', JSON.stringify(registrations));
+            openDoctorRegistration();
+        }
+
+        function toggleDoctorAvailability() {
+            const user = JSON.parse(localStorage.getItem('jagaTubuhCurrentUser'));
+            if (!user) return;
+            
+            const registrations = JSON.parse(localStorage.getItem('jagaTubuhDoctorRegistrations') || '[]');
+            const index = registrations.findIndex(r => r.email === user.email);
+            
+            if (index !== -1) {
+                registrations[index].isOpen = !registrations[index].isOpen;
+                localStorage.setItem('jagaTubuhDoctorRegistrations', JSON.stringify(registrations));
+                
+                const status = registrations[index].isOpen ? 'dibuka' : 'ditutup';
+                showToast(`✅ Konsultasi ${status}`);
+                
+                const btn = document.querySelector('.btn-mitra.danger');
+                if (btn) {
+                    btn.innerHTML = registrations[index].isOpen ? 
+                        '<i class="fas fa-pause"></i> Tutup Konsultasi' : 
+                        '<i class="fas fa-play"></i> Buka Konsultasi';
+                }
+            }
+        }
+
+        function openManageSchedule() {
+            showToast('📅 Fitur Kelola Jadwal akan segera hadir!', 'info');
+        }
+
+        function openManageServices() {
+            showToast('📋 Fitur Kelola Layanan akan segera hadir!', 'info');
+        }
+
+        // ============================================================
+        // ADMIN FUNCTIONS
+        // ============================================================
+        window.adminVerifyDoctor = function(email) {
+            const registrations = JSON.parse(localStorage.getItem('jagaTubuhDoctorRegistrations') || '[]');
+            const index = registrations.findIndex(r => r.email === email);
+            
+            if (index === -1) {
+                showToast('❌ Dokter tidak ditemukan', 'error');
+                return;
+            }
+            
+            if (registrations[index].status === 'verified') {
+                showToast('⚠️ Dokter sudah terverifikasi', 'info');
+                return;
+            }
+            
+            registrations[index].status = 'verified';
+            registrations[index].verifiedAt = new Date().toISOString();
+            localStorage.setItem('jagaTubuhDoctorRegistrations', JSON.stringify(registrations));
+            
+            showToast('✅ Dokter berhasil diverifikasi!', 'success');
+            checkDoctorVerification();
+        };
+
+        window.adminRejectDoctor = function(email, reason) {
+            const registrations = JSON.parse(localStorage.getItem('jagaTubuhDoctorRegistrations') || '[]');
+            const index = registrations.findIndex(r => r.email === email);
+            
+            if (index === -1) {
+                showToast('❌ Dokter tidak ditemukan', 'error');
+                return;
+            }
+            
+            registrations[index].status = 'rejected';
+            registrations[index].rejectedAt = new Date().toISOString();
+            registrations[index].rejectionReason = reason || 'Dokumen tidak lengkap atau tidak valid';
+            localStorage.setItem('jagaTubuhDoctorRegistrations', JSON.stringify(registrations));
+            
+            showToast('❌ Dokter ditolak', 'error');
+            checkDoctorVerification();
+        };
+
+        // ============================================================
+        // TOAST NOTIFICATION
+        // ============================================================
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            const borderColor = type === 'success' ? '#4CAF50' : type === 'error' ? '#ff6b6b' : '#44A1A4';
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%) translateY(100px);
+                background: var(--nav-color);
+                color: white;
+                padding: 14px 28px;
+                border-radius: 12px;
+                font-weight: 600;
+                z-index: 99999;
+                box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+                font-size: 14px;
+                border: 1px solid ${borderColor};
+                opacity: 0;
+                transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                pointer-events: none;
+                max-width: 90%;
+                text-align: center;
+            `;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '1';
+                toast.style.transform = 'translateX(-50%) translateY(0)';
+            }, 100);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(100px)';
+                setTimeout(() => toast.remove(), 500);
+            }, 3000);
+        }
+
+        // ============================================================
+        // MOBILE MENU - HANYA UNTUK LOGOUT
+        // ============================================================
+        function toggleMobileMenu() {
+            const overlay = document.getElementById('mobileMenuOverlay');
+            const hamburger = document.querySelector('.hamburger i');
+            overlay.classList.toggle('open');
+            if (overlay.classList.contains('open')) {
+                hamburger.className = 'fas fa-times';
+            } else {
+                hamburger.className = 'fas fa-bars';
+            }
+        }
+
+        // Tutup menu saat klik di luar
+        document.addEventListener('click', function(e) {
+            const nav = document.querySelector('nav');
+            const overlay = document.getElementById('mobileMenuOverlay');
+            if (!nav.contains(e.target) && overlay.classList.contains('open')) {
+                overlay.classList.remove('open');
+                const hamburger = document.querySelector('.hamburger i');
+                if (hamburger) hamburger.className = 'fas fa-bars';
+            }
+        });
+
+        // ============================================================
+        // LOGOUT
+        // ============================================================
+        function logoutUser() {
+            localStorage.removeItem('jagaTubuhCurrentUser');
+            window.location.href = 'login.html';
+        }
+    </script>
+
+</body>
+</html>
